@@ -1,0 +1,930 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>The Economic Realm</title>
+
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Rajdhani:wght@400;500;600;700&display=swap');
+  *{
+    box-sizing:border-box;
+  }
+
+body{
+  margin:0;
+  min-height:100vh;
+  background:#000;
+  color:#fff;
+  font-family:'Rajdhani', Arial, sans-serif;
+  overflow:hidden;
+}
+
+  button,
+  input{
+    font:inherit;
+  }
+
+  #splashScreen{
+    position:fixed;
+    inset:0;
+    z-index:30;
+    background:
+      linear-gradient(rgba(0,0,0,.05), rgba(0,0,0,.05)),
+      url('titlescreen.png');
+    background-size:cover;
+    background-position:center;
+    background-repeat:no-repeat;
+    opacity:1;
+    transition:opacity 1s ease, visibility 1s ease;
+  }
+
+  #splashScreen.hidden{
+    opacity:0;
+    visibility:hidden;
+    pointer-events:none;
+  }
+
+  .splash-status{
+    position:fixed;
+    right:34px;
+    bottom:26px;
+    font-size:13px;
+    letter-spacing:1.5px;
+    text-transform:uppercase;
+    color:rgba(255,255,255,.55);
+    text-shadow:0 0 8px rgba(0,0,0,.8);
+    animation:statusPulse 1.8s ease-in-out infinite;
+  }
+
+  .splash-enter{
+    position:fixed;
+    left:50%;
+    bottom:72px;
+    z-index:31;
+    transform:translateX(-50%);
+    display:none;
+    padding:14px 26px;
+    border-radius:999px;
+    border:1px solid rgba(255,255,255,.28);
+    background:rgba(0,0,0,.42);
+    color:rgba(255,255,255,.84);
+    cursor:pointer;
+    font-size:13px;
+    letter-spacing:.18em;
+    text-transform:uppercase;
+    text-shadow:0 0 8px rgba(0,0,0,.8);
+    box-shadow:0 0 22px rgba(0,0,0,.55), inset 0 0 18px rgba(255,255,255,.04);
+    opacity:0;
+    transition:opacity .65s ease, transform .18s ease, border-color .18s ease, background .18s ease;
+  }
+
+  #splashScreen.ready .splash-enter{
+    display:block;
+    opacity:1;
+  }
+
+  .splash-enter:hover{
+    transform:translateX(-50%) translateY(-2px);
+    border-color:rgba(255,255,255,.55);
+    background:rgba(255,255,255,.08);
+    color:#fff;
+  }
+
+  .sound-toggle{
+    position:fixed;
+    right:28px;
+    bottom:24px;
+    z-index:12;
+    display:none;
+    padding:10px 13px;
+    border-radius:999px;
+    border:1px solid rgba(255,255,255,.22);
+    background:rgba(0,0,0,.46);
+    color:rgba(255,255,255,.72);
+    cursor:pointer;
+    font-size:11px;
+    letter-spacing:.12em;
+    text-transform:uppercase;
+    box-shadow:0 0 18px rgba(0,0,0,.45);
+  }
+
+  .sound-toggle.visible{
+    display:block;
+  }
+
+  .sound-toggle:hover{
+    color:#fff;
+    border-color:rgba(255,255,255,.42);
+    background:rgba(255,255,255,.08);
+  }
+
+  .help-button{
+  position:fixed;
+  left:28px;
+  bottom:24px;
+  z-index:12;
+  display:none;
+  padding:10px 14px;
+  border-radius:999px;
+  border:1px solid rgba(255,255,255,.22);
+  background:rgba(0,0,0,.46);
+  color:rgba(255,255,255,.72);
+  cursor:pointer;
+  font-size:11px;
+  letter-spacing:.12em;
+  text-transform:uppercase;
+  box-shadow:0 0 18px rgba(0,0,0,.45);
+}
+
+.help-button.visible{
+  display:block;
+}
+
+.help-button:hover{
+  color:#fff;
+  border-color:rgba(255,255,255,.42);
+  background:rgba(255,255,255,.08);
+}
+
+#helpModal{
+  position:fixed;
+  inset:0;
+  z-index:25;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  padding:24px;
+  background:rgba(0,0,0,.72);
+  backdrop-filter:blur(6px);
+  opacity:0;
+  visibility:hidden;
+  pointer-events:none;
+  transition:opacity .22s ease, visibility .22s ease;
+}
+
+#helpModal.active{
+  opacity:1;
+  visibility:visible;
+  pointer-events:auto;
+}
+
+.help-modal-card{
+  width:min(700px, 100%);
+  background:rgba(0,0,0,.96);
+  border:1px solid rgba(255,255,255,.22);
+  border-radius:16px;
+  box-shadow:0 24px 70px rgba(0,0,0,.8);
+  padding:24px 24px 22px;
+}
+
+.help-modal-header{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:16px;
+  margin-bottom:16px;
+  padding-bottom:12px;
+  border-bottom:1px solid rgba(255,255,255,.10);
+}
+
+.help-modal-title{
+  margin:0;
+  font-size:28px;
+  font-weight:700;
+  letter-spacing:.08em;
+  text-transform:uppercase;
+  color:#fff;
+}
+
+.help-close-btn{
+  border:1px solid rgba(255,255,255,.20);
+  background:transparent;
+  color:rgba(255,255,255,.72);
+  border-radius:999px;
+  padding:8px 14px;
+  cursor:pointer;
+  font-size:11px;
+  letter-spacing:.12em;
+  text-transform:uppercase;
+}
+
+.help-close-btn:hover{
+  color:#fff;
+  border-color:rgba(255,255,255,.42);
+  background:rgba(255,255,255,.06);
+}
+
+.help-modal-body{
+  color:rgba(255,255,255,.82);
+  line-height:1.7;
+  font-size:16px;
+}
+
+.help-modal-body p{
+  margin:0 0 14px;
+}
+
+.help-modal-body ul{
+  margin:0 0 14px 20px;
+  padding:0;
+}
+
+.help-modal-body li{
+  margin-bottom:8px;
+}
+
+  #mainMenu{
+    min-height:100vh;
+    padding:46px 44px;
+    opacity:0;
+    transform:translateY(12px);
+    transition:opacity .9s ease, transform .9s ease;
+    background:
+      radial-gradient(circle at center, rgba(80,110,160,.18), transparent 38%),
+      linear-gradient(180deg, #05070d, #000);
+    overflow-y:auto;
+  }
+
+  #mainMenu.active{
+    opacity:1;
+    transform:translateY(0);
+  }
+
+  .menu-shell{
+    width:min(1500px, 100%);
+    margin:0 auto;
+  }
+
+  .menu-header{
+    text-align:center;
+    margin-bottom:34px;
+  }
+
+  .menu-kicker{
+    margin:0 0 8px;
+    font-size:13px;
+    letter-spacing:.24em;
+    text-transform:uppercase;
+    color:rgba(255,255,255,.58);
+  }
+
+  .menu-title{
+    margin:0;
+    font-size:clamp(38px, 4.5vw, 70px);
+    font-weight:700;
+    letter-spacing:.09em;
+    text-transform:uppercase;
+    color:#f4f4f4;
+    text-shadow:0 0 14px rgba(255,255,255,.20), 0 0 34px rgba(120,170,255,.13);
+  }
+
+  .menu-subtitle{
+    max-width:820px;
+    margin:14px auto 0;
+    font-size:16px;
+    line-height:1.5;
+    color:rgba(255,255,255,.68);
+    letter-spacing:.04em;
+  }
+
+#mainMenu{
+  position:relative;
+  overflow:hidden;
+}
+
+.menu-video-bg{
+  position:fixed;
+  inset:0;
+  width:100vw;
+  height:100vh;
+  object-fit:cover;
+  pointer-events:none;
+  z-index:1;
+  opacity:.3;
+  mix-blend-mode:screen;
+}
+
+.menu-overlay{
+  position:fixed;
+  inset:0;
+  background:
+    radial-gradient(circle at center, rgba(0,0,0,0) 30%, rgba(0,0,0,.55) 85%);
+  pointer-events:none;
+  z-index:1;
+}
+
+.menu-shell{
+  position:relative;
+  backdrop-filter: blur(1px);
+  z-index:2;
+}
+
+.game-grid{
+  display:grid;
+  grid-template-columns:repeat(5, minmax(0, 1fr));
+  gap:18px;
+}
+
+  .game-card{
+    position:relative;
+    min-height:560px;
+    border:1px solid rgba(255,255,255,.16);
+    border-radius:18px;
+    overflow:hidden;
+    background:rgba(4,6,12,.84);
+    box-shadow:0 18px 48px rgba(0,0,0,.55), inset 0 0 0 1px rgba(255,255,255,.04);
+    transition:transform .18s ease, box-shadow .18s ease, border-color .18s ease;
+  }
+
+  .game-card:hover{
+    transform:translateY(-6px);
+    border-color:rgba(255,255,255,.32);
+    box-shadow:0 24px 64px rgba(0,0,0,.7), 0 0 30px rgba(255,255,255,.08), inset 0 0 0 1px rgba(255,255,255,.05);
+  }
+
+  .game-thumb{
+    height:230px;
+    background-size:cover;
+    background-position:center;
+    border-bottom:1px solid rgba(255,255,255,.12);
+  }
+
+  .game-thumb::after{
+    content:"";
+    display:block;
+    width:100%;
+    height:100%;
+    background:linear-gradient(180deg, transparent 35%, rgba(0,0,0,.62));
+  }
+
+  .game-content{
+    padding:22px 20px 20px;
+    display:flex;
+    min-height:330px;
+    flex-direction:column;
+  }
+
+  .game-title{
+    margin:0 0 10px;
+    font-size:22px;
+    line-height:1.05;
+    font-weight:700;
+    letter-spacing:.06em;
+    text-transform:uppercase;
+    color:#fff;
+  }
+
+  .game-tagline{
+    margin:0 0 16px;
+    color:rgba(255,255,255,.64);
+    font-size:14px;
+    line-height:1.45;
+  }
+
+  .topic-list{
+    display:flex;
+    flex-wrap:wrap;
+    gap:8px;
+    margin-bottom:18px;
+  }
+
+  .topic-chip{
+    padding:7px 9px;
+    border-radius:999px;
+    background:rgba(255,255,255,.08);
+    border:1px solid rgba(255,255,255,.10);
+    color:rgba(255,255,255,.76);
+    font-size:11px;
+    letter-spacing:.08em;
+    text-transform:uppercase;
+  }
+
+  .game-meta{
+    margin-top:auto;
+    padding-top:14px;
+    border-top:1px solid rgba(255,255,255,.10);
+  }
+
+  .status-line{
+    display:flex;
+    justify-content:space-between;
+    gap:12px;
+    margin-bottom:14px;
+    font-size:12px;
+    letter-spacing:.08em;
+    text-transform:uppercase;
+    color:rgba(255,255,255,.56);
+  }
+
+  .status-value{
+    color:rgba(255,255,255,.86);
+  }
+
+  .enter-btn{
+    width:100%;
+    padding:13px 16px;
+    border-radius:10px;
+    border:1px solid rgba(255,255,255,.24);
+    background:linear-gradient(180deg, rgba(255,255,255,.16), rgba(255,255,255,.05));
+    color:#fff;
+    cursor:pointer;
+    letter-spacing:.12em;
+    text-transform:uppercase;
+    font-size:13px;
+    transition:transform .14s ease, background .14s ease, box-shadow .14s ease;
+  }
+
+  .enter-btn:hover{
+    transform:translateY(-2px);
+    background:linear-gradient(180deg, rgba(255,255,255,.24), rgba(255,255,255,.08));
+    box-shadow:0 0 22px rgba(255,255,255,.10);
+  }
+
+.market-gate{--accent:#38bdf8;}
+.national-engine{--accent:#2563eb;}
+.equilibrium-crisis{--accent:#f59e0b;}
+.liquidity-grid{--accent:#0ea5e9;}
+.stabilization-protocol{--accent:#1d4ed8;}
+  
+  .game-card::before{
+    content:"";
+    position:absolute;
+    inset:0;
+    pointer-events:none;
+    background:linear-gradient(180deg, color-mix(in srgb, var(--accent) 22%, transparent), transparent 36%);
+    opacity:.26;
+  }
+
+  .game-card:hover .enter-btn{
+    border-color:color-mix(in srgb, var(--accent) 70%, white 20%);
+    box-shadow:0 0 24px color-mix(in srgb, var(--accent) 22%, transparent);
+  }
+  
+.market-gate .game-thumb{background-image:url('tmg_thumbnail.png');}
+.national-engine .game-thumb{background-image:url('tne_thumbnail.png');}
+.equilibrium-crisis .game-thumb{background-image:url('tec_thumbnail.png');}
+.liquidity-grid .game-thumb{background-image:url('tlg_thumbnail.png');}
+.stabilization-protocol .game-thumb{background-image:url('tsp_thumbnail.png');}
+  
+  #emailModal{
+    position:fixed;
+    inset:0;
+    z-index:20;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    padding:22px;
+    background:rgba(0,0,0,.72);
+    backdrop-filter:blur(8px);
+    opacity:0;
+    visibility:hidden;
+    pointer-events:none;
+    transition:opacity .22s ease, visibility .22s ease;
+  }
+
+  #emailModal.active{
+    opacity:1;
+    visibility:visible;
+    pointer-events:auto;
+  }
+
+  .modal-card{
+    width:min(520px, 100%);
+    border-radius:18px;
+    padding:28px;
+    background:radial-gradient(circle at top, rgba(255,255,255,.09), transparent 42%), rgba(5,7,12,.96);
+    border:1px solid rgba(255,255,255,.18);
+    box-shadow:0 28px 80px rgba(0,0,0,.8);
+  }
+
+  .modal-label{
+    margin:0 0 8px;
+    font-size:12px;
+    letter-spacing:.22em;
+    text-transform:uppercase;
+    color:rgba(255,255,255,.52);
+  }
+
+  .modal-title{
+    margin:0 0 10px;
+    font-size:30px;
+    font-weight:700;
+    letter-spacing:.08em;
+    text-transform:uppercase;
+  }
+
+  .modal-text{
+    margin:0 0 22px;
+    color:rgba(255,255,255,.66);
+    line-height:1.45;
+  }
+
+  .email-input{
+    width:100%;
+    padding:15px 16px;
+    border-radius:10px;
+    border:1px solid rgba(255,255,255,.22);
+    background:rgba(0,0,0,.45);
+    color:#fff;
+    outline:none;
+    margin-bottom:14px;
+  }
+
+  .email-input:focus{
+    border-color:rgba(255,255,255,.55);
+    box-shadow:0 0 20px rgba(255,255,255,.08);
+  }
+
+  .modal-actions{
+    display:flex;
+    gap:12px;
+  }
+
+  .modal-btn{
+    flex:1;
+    padding:13px 16px;
+    border-radius:10px;
+    border:1px solid rgba(255,255,255,.22);
+    color:#fff;
+    cursor:pointer;
+    letter-spacing:.1em;
+    text-transform:uppercase;
+    font-size:12px;
+  }
+
+  .launch-btn{
+    background:linear-gradient(180deg, rgba(255,255,255,.20), rgba(255,255,255,.07));
+  }
+
+  .cancel-btn{
+    background:transparent;
+    color:rgba(255,255,255,.70);
+  }
+
+  @keyframes statusPulse{
+    0%,100%{opacity:.35;}
+    50%{opacity:.75;}
+  }
+
+@media(max-width:1450px){
+  .game-grid{
+    grid-template-columns:repeat(3, minmax(0, 1fr));
+  }
+}
+
+@media(max-width:900px){
+  .game-grid{
+    grid-template-columns:repeat(2, minmax(0, 1fr));
+  }
+}
+  
+@media(max-width:680px){
+  #splashScreen{
+    background-size:100% auto;
+    background-position:center 42%;
+    background-color:#000;
+  }
+}
+
+  @media(max-width:680px){
+    body{
+      overflow:auto;
+    }
+
+    #mainMenu{
+      padding:32px 18px;
+    }
+
+    .game-grid{
+      grid-template-columns:1fr;
+    }
+
+    .game-card{
+      min-height:auto;
+    }
+
+    .game-content{
+      min-height:auto;
+    }
+
+    .splash-status{
+      right:20px;
+      bottom:18px;
+      font-size:10px;
+    }
+
+    .modal-actions{
+      flex-direction:column;
+    }
+  }
+</style>
+</head>
+
+<body>
+  <section id="splashScreen" aria-label="The Economic Realm splash screen">
+  <button id="enterHubButton" class="splash-enter" onclick="enterHub()">Click to Enter</button>
+  <div class="splash-status" id="splashStatus">Initializing adaptive game...</div>
+</section>
+
+  <button id="soundToggle" class="sound-toggle" onclick="toggleMenuMusic()" aria-label="Toggle menu music">Sound Off</button>
+
+  <button id="helpButton" class="help-button" onclick="openHelpModal()" aria-label="Open instructions">
+  How This Works
+  </button>
+
+  <main id="mainMenu" aria-label="Game selection menu">
+    <div class="menu-overlay"></div>
+    <video class="menu-video-bg" autoplay muted loop playsinline aria-hidden="true">
+      <source src="menu_mist.mp4" type="video/mp4">
+    </video>
+    <div class="menu-shell">
+  <header class="menu-header">
+    <p class="menu-kicker">The Economic Realm</p>
+    <h1 class="menu-title">Choose Your Mission</h1>
+    <p class="menu-subtitle">Select a review mission. Each mission targets a different part of the course, adapts to your performance, and reports completion when you finish.</p>
+  </header>
+
+<section class="game-grid" aria-label="Available review missions">
+
+  <article class="game-card market-gate">
+    <div class="game-thumb" aria-hidden="true"></div>
+    <div class="game-content">
+      <h2 class="game-title">The Market Gate</h2>
+      <p class="game-tagline">Enter the realm through choice, trade, supply, demand, and elasticity.</p>
+      <div class="topic-list">
+        <span class="topic-chip">Ch. 1</span>
+        <span class="topic-chip">Ch. 2</span>
+        <span class="topic-chip">Ch. 4</span>
+        <span class="topic-chip">Ch. 6</span>
+      </div>
+      <div class="game-meta">
+        <div class="status-line"><span>Status</span><span class="status-value" id="status-marketGate">Ready</span></div>
+        <button class="enter-btn" onclick="selectGame('marketGate')">Enter the Gate</button>
+      </div>
+    </div>
+  </article>
+
+  <article class="game-card national-engine">
+    <div class="game-thumb" aria-hidden="true"></div>
+    <div class="game-content">
+      <h2 class="game-title">The National Engine</h2>
+      <p class="game-tagline">Track prices, growth, saving, investment, financial systems, and money.</p>
+      <div class="topic-list">
+        <span class="topic-chip">Ch. 24</span>
+        <span class="topic-chip">Ch. 25</span>
+        <span class="topic-chip">Ch. 26</span>
+        <span class="topic-chip">Ch. 29</span>
+      </div>
+      <div class="game-meta">
+        <div class="status-line"><span>Status</span><span class="status-value" id="status-nationalEngine">Ready</span></div>
+        <button class="enter-btn" onclick="selectGame('nationalEngine')">Start the Engine</button>
+      </div>
+    </div>
+  </article>
+
+  <article class="game-card equilibrium-crisis">
+    <div class="game-thumb" aria-hidden="true"></div>
+    <div class="game-content">
+      <h2 class="game-title">The Equilibrium Crisis</h2>
+      <p class="game-tagline">Stabilize the collision point where market forces and macro systems meet.</p>
+      <div class="topic-list">
+        <span class="topic-chip">Midterm</span>
+        <span class="topic-chip">Markets</span>
+        <span class="topic-chip">Macro</span>
+        <span class="topic-chip">Crisis</span>
+      </div>
+      <div class="game-meta">
+        <div class="status-line"><span>Status</span><span class="status-value" id="status-equilibriumCrisis">Ready</span></div>
+        <button class="enter-btn" onclick="selectGame('equilibriumCrisis')">Stabilize the System</button>
+      </div>
+    </div>
+  </article>
+
+  <article class="game-card liquidity-grid">
+    <div class="game-thumb" aria-hidden="true"></div>
+    <div class="game-content">
+      <h2 class="game-title">The Liquidity Grid</h2>
+      <p class="game-tagline">Move through banking, reserves, deposits, credit channels, and monetary control.</p>
+      <div class="topic-list">
+        <span class="topic-chip">Ch. 30</span>
+        <span class="topic-chip">Ch. 31</span>
+        <span class="topic-chip">Ch. 35</span>
+        <span class="topic-chip">Banking</span>
+      </div>
+      <div class="game-meta">
+        <div class="status-line"><span>Status</span><span class="status-value" id="status-liquidityGrid">Ready</span></div>
+        <button class="enter-btn" onclick="selectGame('liquidityGrid')">Enter the Grid</button>
+      </div>
+    </div>
+  </article>
+
+  <article class="game-card stabilization-protocol">
+    <div class="game-thumb" aria-hidden="true"></div>
+    <div class="game-content">
+      <h2 class="game-title">The Stabilization Protocol</h2>
+      <p class="game-tagline">Command the final system: money, open economy, aggregate demand, policy, and tradeoffs.</p>
+      <div class="topic-list">
+        <span class="topic-chip">Final</span>
+        <span class="topic-chip">Ch. 30</span>
+        <span class="topic-chip">Ch. 31</span>
+        <span class="topic-chip">Ch. 34</span>
+        <span class="topic-chip">Ch. 35</span>
+        <span class="topic-chip">Ch. 36</span>
+      </div>
+      <div class="game-meta">
+        <div class="status-line"><span>Status</span><span class="status-value" id="status-stabilizationProtocol">Ready</span></div>
+        <button class="enter-btn" onclick="selectGame('stabilizationProtocol')">Run the Protocol</button>
+      </div>
+    </div>
+  </article>
+
+</section>
+      
+    </div>
+  </main>
+
+<section id="helpModal" aria-label="Instructions dialog">
+  <div class="help-modal-card">
+    <div class="help-modal-header">
+      <h2 class="help-modal-title">How This Works</h2>
+      <button class="help-close-btn" onclick="closeHelpModal()" aria-label="Close instructions">Close ×</button>
+    </div>
+
+    <div class="help-modal-body">
+      <p>Choose a mission to begin reviewing.</p>
+
+<p>Each mission focuses on a different part of the course and adapts to your performance as you play.</p>
+
+<ul>
+  <li>Correct answers move you forward.</li>
+  <li>Missed questions may send you back or trigger review.</li>
+  <li>Boss rooms check whether you are ready to advance.</li>
+  <li>Completion is reported when you finish a mission.</li>
+</ul>
+
+<p>When you enter a mission, use your school email on that mission’s start screen so your progress can be recorded.</p>
+    </div>
+  </div>
+</section>
+
+<script>
+  const menuMusic = new Audio("menu_music.mp3");
+  menuMusic.loop = true;
+  menuMusic.volume = 0.12;
+  let menuMusicStarted = false;
+
+  function showSoundToggle(){
+    const button = document.getElementById("soundToggle");
+    if(button){
+      button.classList.add("visible");
+    }
+  }
+
+  function updateSoundToggle(){
+    const button = document.getElementById("soundToggle");
+    if(!button) return;
+    button.innerText = menuMusicStarted ? "Sound On" : "Sound Off";
+  }
+
+  function startMenuMusic(){
+    menuMusic.play()
+      .then(() => {
+        menuMusicStarted = true;
+        updateSoundToggle();
+      })
+      .catch(error => {
+        menuMusicStarted = false;
+        updateSoundToggle();
+        console.log("Menu music could not start yet:", error.message);
+      });
+  }
+
+  function stopMenuMusic(){
+    menuMusic.pause();
+    menuMusic.currentTime = 0;
+    menuMusicStarted = false;
+    updateSoundToggle();
+  }
+
+  function toggleMenuMusic(){
+    if(menuMusicStarted){
+      stopMenuMusic();
+    } else {
+      startMenuMusic();
+    }
+  }
+
+  const games = {
+  marketGate: {
+    title: "The Market Gate",
+    file: "https://wjbyrd.github.io/The-Market-Gate/",
+    statusKey: "economicRealm_marketGate_complete"
+  },
+  nationalEngine: {
+    title: "The National Engine",
+    file: "https://wjbyrd.github.io/The-National-Engine/",
+    statusKey: "economicRealm_nationalEngine_complete"
+  },
+  equilibriumCrisis: {
+    title: "The Equilibrium Crisis",
+    file: "https://wjbyrd.github.io/The-Equilibrium-Crisis/",
+    statusKey: "economicRealm_equilibriumCrisis_complete"
+  },
+  liquidityGrid: {
+    title: "The Liquidity Grid",
+    file: "https://wjbyrd.github.io/The-Liquidity-Grid/",
+    statusKey: "economicRealm_liquidityGrid_complete"
+  },
+  stabilizationProtocol: {
+    title: "The Stabilization Protocol",
+    file: "https://wjbyrd.github.io/The-Stabilization-Protocol/",
+    statusKey: "economicRealm_stabilizationProtocol_complete"
+  }
+};
+
+  let selectedGame = null;
+
+  window.addEventListener("load", () => {
+    restoreSavedEmail();
+    updateGameStatuses();
+    updateSoundToggle();
+
+    setTimeout(() => {
+      document.getElementById("splashScreen").classList.add("ready");
+      document.getElementById("splashStatus").innerText = "Game ready.";
+    }, 3000);
+  });
+
+  function enterHub(){
+    document.getElementById("splashScreen").classList.add("hidden");
+    document.getElementById("mainMenu").classList.add("active");
+    showSoundToggle();
+    showHelpButton();
+    startMenuMusic();
+  }
+
+  function restoreSavedEmail(){
+    const savedEmail = localStorage.getItem("gauntletEmail") || "";
+    const input = document.getElementById("hubEmailInput");
+    if(input && savedEmail){
+      input.value = savedEmail;
+    }
+  }
+
+function showHelpButton(){
+  const button = document.getElementById("helpButton");
+  if(button){
+    button.classList.add("visible");
+  }
+}
+
+function openHelpModal(){
+  document.getElementById("helpModal").classList.add("active");
+}
+
+function closeHelpModal(){
+  document.getElementById("helpModal").classList.remove("active");
+}
+
+  function updateGameStatuses(){
+    Object.keys(games).forEach(key => {
+      const statusElement = document.getElementById("status-" + key);
+      if(!statusElement) return;
+
+      const completed = localStorage.getItem(games[key].statusKey) === "true";
+      statusElement.innerText = completed ? "Completed" : "Ready";
+    });
+  }
+  
+function selectGame(gameKey){
+    if(!games[gameKey]){
+      alert("Select a mission first.");
+      return;
+    }
+
+    localStorage.setItem("selectedMission", gameKey);
+
+    stopMenuMusic();
+    window.location.href = games[gameKey].file;
+  }
+  
+ document.addEventListener("keydown", event => {
+  if(event.key === "Escape"){
+    const helpModal = document.getElementById("helpModal");
+
+    if(helpModal.classList.contains("active")){
+      closeHelpModal();
+      return;
+    }
+
+    stopMenuMusic();
+  }
+});
+
+
+</script>
+</body>
+</html>
+
+
