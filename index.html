@@ -39,6 +39,13 @@ body{
     transition:opacity 1s ease, visibility 1s ease;
   }
 
+  @media (max-width: 768px){
+  #startScreen{
+    background-image: url('titlescreen_mobile.png');
+    background-size: cover;
+    background-position: center;
+  }
+
   #splashScreen.hidden{
     opacity:0;
     visibility:hidden;
@@ -466,7 +473,7 @@ body{
     box-shadow:0 0 24px color-mix(in srgb, var(--accent) 22%, transparent);
   }
   
-.market-gate .game-thumb{background-image:url('tmg_thumbnail.png');}
+.market-gate .game-thumb{background-image:url('tmg_thumbnail');}
 .national-engine .game-thumb{background-image:url('tne_thumbnail.png');}
 .equilibrium-crisis .game-thumb{background-image:url('tec_thumbnail.png');}
 .liquidity-grid .game-thumb{background-image:url('tlg_thumbnail.png');}
