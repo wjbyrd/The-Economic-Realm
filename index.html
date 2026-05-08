@@ -455,7 +455,7 @@ body{
   }
 
 .market-gate{--accent:#38bdf8;}
-.national-engine{--accent:#2563eb;}
+.national-ledger{--accent:#2563eb;}
 .equilibrium-crisis{--accent:#f59e0b;}
 .liquidity-grid{--accent:#0ea5e9;}
 .stabilization-protocol{--accent:#1d4ed8;}
@@ -475,7 +475,7 @@ body{
   }
   
 .market-gate .game-thumb{background-image:url('tmg_thumbnail.png');}
-.national-engine .game-thumb{background-image:url('tne_thumbnail.png');}
+.national-ledger .game-thumb{background-image:url('tnl_thumbnail.png');}
 .equilibrium-crisis .game-thumb{background-image:url('tec_thumbnail.png');}
 .liquidity-grid .game-thumb{background-image:url('tlg_thumbnail.png');}
 .stabilization-protocol .game-thumb{background-image:url('tsp_thumbnail.png');}
@@ -682,23 +682,31 @@ body{
   </div>
 </article>
 
-  <article class="game-card national-engine">
-    <div class="game-thumb" aria-hidden="true"></div>
-    <div class="game-content">
-      <h2 class="game-title">The National Engine</h2>
-      <p class="game-tagline">Track prices, growth, saving, investment, financial systems, and money.</p>
-      <div class="topic-list">
-        <span class="topic-chip">Ch. 24</span>
-        <span class="topic-chip">Ch. 25</span>
-        <span class="topic-chip">Ch. 26</span>
-        <span class="topic-chip">Ch. 29</span>
-      </div>
-      <div class="game-meta">
-        <div class="status-line"><span>Status</span><span class="status-value" id="status-nationalEngine">Ready</span></div>
-        <button class="enter-btn" onclick="selectGame('nationalEngine')">Coming soon</button>
-      </div>
+ <article class="game-card national-ledger">
+  <div class="game-thumb national-ledger-thumb" aria-hidden="true"></div>
+  <div class="game-content">
+    <h2 class="game-title">The National Ledger</h2>
+    <p class="game-tagline">
+      Measure the nation’s output, prices, growth, productivity, and labor market signals.
+    </p>
+    <div class="topic-list">
+      <span class="topic-chip">GDP</span>
+      <span class="topic-chip">Productivity</span>
+      <span class="topic-chip">CPI</span>
+      <span class="topic-chip">Growth</span>
+      <span class="topic-chip">Unemployment</span>
     </div>
-  </article>
+    <div class="game-meta">
+      <div class="status-line">
+        <span>Status</span>
+        <span class="status-value" id="status-nationalLedger">Ready</span>
+      </div>
+      <button class="enter-btn" onclick="selectGame('nationalLedger')">
+        Enter the Ledger
+      </button>
+    </div>
+  </div>
+</article>
 
   <article class="game-card equilibrium-crisis">
     <div class="game-thumb" aria-hidden="true"></div>
@@ -838,10 +846,10 @@ body{
     file: "https://wjbyrd.github.io/The-Market-Gate/",
     statusKey: "economicRealm_marketGate_complete"
   },
-  nationalEngine: {
-    title: "The National Engine",
-    file: "https://wjbyrd.github.io/The-National-Engine/",
-    statusKey: "economicRealm_nationalEngine_complete"
+  nationalLedger: {
+    title: "The National Ledger",
+    file: "https://wjbyrd.github.io/The-National-Ledger/",
+    statusKey: "economicRealm_nationalLedger_complete"
   },
   equilibriumCrisis: {
     title: "The Equilibrium Crisis",
