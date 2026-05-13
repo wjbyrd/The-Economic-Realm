@@ -301,6 +301,46 @@ body{
     letter-spacing:.04em;
   }
 
+.realm-status-panel{
+  width:min(680px, 100%);
+  margin:22px auto 0;
+  padding:15px 18px 16px;
+  border-radius:16px;
+  border:1px solid rgba(255,255,255,.16);
+  background:
+    radial-gradient(circle at top, rgba(255,255,255,.08), transparent 55%),
+    rgba(0,0,0,.36);
+  box-shadow:
+    0 0 24px rgba(255,255,255,.06),
+    inset 0 0 20px rgba(255,255,255,.035);
+  text-align:center;
+}
+
+.realm-status-label{
+  font-size:11px;
+  letter-spacing:.22em;
+  text-transform:uppercase;
+  color:rgba(255,255,255,.52);
+  margin-bottom:6px;
+}
+
+.realm-status-text{
+  font-size:22px;
+  letter-spacing:.10em;
+  text-transform:uppercase;
+  color:rgba(255,255,255,.92);
+  font-weight:700;
+}
+
+.realm-status-subtext{
+  max-width:560px;
+  margin:7px auto 0;
+  font-size:13px;
+  line-height:1.45;
+  color:rgba(255,255,255,.58);
+  letter-spacing:.04em;
+}
+
 #mainMenu{
   position:relative;
   overflow:hidden;
@@ -655,7 +695,18 @@ body{
   <header class="menu-header">
     <p class="menu-kicker">The Economic Realm</p>
     <h1 class="menu-title">Choose Your Mission</h1>
-    <p class="menu-subtitle">Select a review mission. Each mission targets a different part of the course, adapts to your performance, and reports completion when you finish.</p>
+    <p class="menu-subtitle">
+  Select a review mission. Each mission targets a different part of the course, adapts to your performance, and reports completion when you finish.
+</p>
+
+<div class="realm-status-panel" aria-label="Realm campaign status">
+  <div class="realm-status-label">Realm Status</div>
+  <div id="realmStatusText" class="realm-status-text">0 of 5 systems restored</div>
+  <div id="realmStatusSubtext" class="realm-status-subtext">
+    The Economic Realm remains unstable. Complete missions to restore each system.
+  </div>
+</div>
+</header>
   </header>
 
 <section class="game-grid" aria-label="Available review missions">
@@ -841,31 +892,60 @@ body{
     }
   }
 
-  const games = {
+const games = {
   marketGate: {
     title: "The Market Gate",
     file: "https://wjbyrd.github.io/The-Market-Gate/",
-    statusKey: "economicRealm_marketGate_complete"
+    statusKey: "economicRealm_marketGate_complete",
+    startedKey: "economicRealm_marketGate_started",
+    roomKey: "economicRealm_marketGate_room",
+    unstableText: "Signals Unstable",
+    contestedText: "Signals Contested",
+    restoredText: "Gate Restored"
   },
+
   nationalLedger: {
     title: "The National Ledger",
     file: "https://wjbyrd.github.io/The-National-Ledger/",
-    statusKey: "economicRealm_nationalLedger_complete"
+    statusKey: "economicRealm_nationalLedger_complete",
+    startedKey: "economicRealm_nationalLedger_started",
+    roomKey: "economicRealm_nationalLedger_room",
+    unstableText: "Ledger Unread",
+    contestedText: "Audit Underway",
+    restoredText: "Ledger Restored"
   },
+
   equilibriumCrisis: {
     title: "The Equilibrium Crisis",
     file: "https://wjbyrd.github.io/The-Equilibrium-Crisis/",
-    statusKey: "economicRealm_equilibriumCrisis_complete"
+    statusKey: "economicRealm_equilibriumCrisis_complete",
+    startedKey: "economicRealm_equilibriumCrisis_started",
+    roomKey: "economicRealm_equilibriumCrisis_room",
+    unstableText: "Balance Fractured",
+    contestedText: "Crisis Active",
+    restoredText: "Balance Sealed"
   },
+
   liquidityGrid: {
     title: "The Liquidity Grid",
     file: "https://wjbyrd.github.io/The-Liquidity-Grid/",
-    statusKey: "economicRealm_liquidityGrid_complete"
+    statusKey: "economicRealm_liquidityGrid_complete",
+    startedKey: "economicRealm_liquidityGrid_started",
+    roomKey: "economicRealm_liquidityGrid_room",
+    unstableText: "Grid Offline",
+    contestedText: "Channels Disrupted",
+    restoredText: "Grid Reopened"
   },
+
   stabilizationProtocol: {
     title: "The Stabilization Protocol",
     file: "https://wjbyrd.github.io/The-Stabilization-Protocol/",
-    statusKey: "economicRealm_stabilizationProtocol_complete"
+    statusKey: "economicRealm_stabilizationProtocol_complete",
+    startedKey: "economicRealm_stabilizationProtocol_started",
+    roomKey: "economicRealm_stabilizationProtocol_room",
+    unstableText: "Protocol Locked",
+    contestedText: "Protocol Running",
+    restoredText: "System Stabilized"
   }
 };
 
@@ -913,15 +993,51 @@ function closeHelpModal(){
   document.getElementById("helpModal").classList.remove("active");
 }
 
-  function updateGameStatuses(){
-    Object.keys(games).forEach(key => {
-      const statusElement = document.getElementById("status-" + key);
-      if(!statusElement) return;
+function updateGameStatuses(){
+  let restoredCount = 0;
+  let contestedCount = 0;
+  const totalMissions = Object.keys(games).length;
 
-      const completed = localStorage.getItem(games[key].statusKey) === "true";
-      statusElement.innerText = completed ? "Completed" : "Ready";
-    });
+  Object.keys(games).forEach(key => {
+    const statusElement = document.getElementById("status-" + key);
+    if(!statusElement) return;
+
+    const game = games[key];
+    const completed = localStorage.getItem(game.statusKey) === "true";
+    const started = localStorage.getItem(game.startedKey) === "true";
+    const room = localStorage.getItem(game.roomKey);
+
+    if(completed){
+      statusElement.innerText = game.restoredText || "Restored";
+      statusElement.dataset.realmState = "restored";
+      restoredCount++;
+    } else if(started){
+      statusElement.innerText = room ? `${game.contestedText || "Contested"} · Room ${room}` : (game.contestedText || "Contested");
+      statusElement.dataset.realmState = "contested";
+      contestedCount++;
+    } else {
+      statusElement.innerText = game.unstableText || "Unstable";
+      statusElement.dataset.realmState = "unstable";
+    }
+  });
+
+  const realmStatus = document.getElementById("realmStatusText");
+  const realmSubtext = document.getElementById("realmStatusSubtext");
+
+  if(realmStatus){
+    realmStatus.innerText = `${restoredCount} of ${totalMissions} systems restored`;
   }
+
+  if(realmSubtext){
+    if(restoredCount === totalMissions){
+      realmSubtext.innerText = "The Economic Realm is stabilized. All major systems have been restored.";
+    } else if(restoredCount > 0 || contestedCount > 0){
+      realmSubtext.innerText = `${restoredCount} restored, ${contestedCount} contested. Continue missions to stabilize the realm.`;
+    } else {
+      realmSubtext.innerText = "The Economic Realm remains unstable. Complete missions to restore each system.";
+    }
+  }
+}
   
 function selectGame(gameKey){
     if(!games[gameKey]){
