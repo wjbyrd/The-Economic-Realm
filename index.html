@@ -993,6 +993,10 @@ function closeHelpModal(){
   document.getElementById("helpModal").classList.remove("active");
 }
 
+function pluralize(count, singular, plural){
+  return count === 1 ? singular : plural;
+}
+
 function updateGameStatuses(){
   let restoredCount = 0;
   let contestedCount = 0;
@@ -1031,8 +1035,16 @@ function updateGameStatuses(){
   if(realmSubtext){
     if(restoredCount === totalMissions){
       realmSubtext.innerText = "The Economic Realm is stabilized. All major systems have been restored.";
-    } else if(restoredCount > 0 || contestedCount > 0){
-      realmSubtext.innerText = `${restoredCount} restored, ${contestedCount} contested. Continue missions to stabilize the realm.`;
+    } else if(restoredCount > 0 && contestedCount > 0){
+      realmSubtext.innerText =
+        `${restoredCount} ${pluralize(restoredCount, "system", "systems")} restored, ` +
+        `${contestedCount} ${pluralize(contestedCount, "mission", "missions")} contested. Continue missions to stabilize the realm.`;
+    } else if(restoredCount > 0){
+      realmSubtext.innerText =
+        `${restoredCount} ${pluralize(restoredCount, "system", "systems")} restored. Continue missions to stabilize the realm.`;
+    } else if(contestedCount > 0){
+      realmSubtext.innerText =
+        `${contestedCount} ${pluralize(contestedCount, "mission", "missions")} contested. Complete the active mission to restore its system.`;
     } else {
       realmSubtext.innerText = "The Economic Realm remains unstable. Complete missions to restore each system.";
     }
