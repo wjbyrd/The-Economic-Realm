@@ -1125,24 +1125,39 @@ body{
 
 .artifact-image-wrap{
   width:100%;
-  height:150px;
-  margin-bottom:12px;
+  margin-bottom:18px;
   display:flex;
   align-items:center;
   justify-content:center;
-  border-radius:12px;
-  border:1px solid rgba(255,255,255,.12);
-  background:
-    radial-gradient(circle at center, rgba(255,255,255,.08), transparent 58%),
-    rgba(0,0,0,.28);
-  overflow:hidden;
+  background:transparent;
+  border:none;
+  overflow:visible;
+}
+
+.artifact-image-button{
+  border:none;
+  background:transparent;
+  padding:0;
+  margin:0;
+  cursor:pointer;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  width:100%;
 }
 
 .artifact-image{
-  max-width:100%;
-  max-height:100%;
+  max-width:82%;
+  max-height:230px;
   object-fit:contain;
   display:block;
+  filter:drop-shadow(0 0 22px rgba(255,255,255,.10));
+  transition:transform .18s ease, filter .18s ease;
+}
+
+.artifact-image-button:hover .artifact-image{
+  transform:scale(1.035);
+  filter:drop-shadow(0 0 28px rgba(255,255,255,.18));
 }
 
 .artifact-card.locked .artifact-image-wrap{
@@ -1151,10 +1166,108 @@ body{
 }
 
 .artifact-placeholder{
+  width:100%;
+  min-height:150px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  border-radius:12px;
+  border:1px solid rgba(255,255,255,.10);
+  background:
+    radial-gradient(circle at center, rgba(255,255,255,.08), transparent 58%),
+    rgba(0,0,0,.22);
   font-size:11px;
   letter-spacing:.16em;
   text-transform:uppercase;
   color:rgba(255,255,255,.42);
+}
+
+/* =========================================================
+   UPGRADE: Artifact detail modal.
+   - Clicking an unlocked artifact image opens a larger view.
+   - The vault image itself now acts as the collectible button.
+   ========================================================= */
+.artifact-modal{
+  position:fixed;
+  inset:0;
+  z-index:45;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  padding:24px;
+  background:rgba(0,0,0,.82);
+  backdrop-filter:blur(7px);
+  opacity:0;
+  visibility:hidden;
+  pointer-events:none;
+  transition:opacity .22s ease, visibility .22s ease;
+}
+
+.artifact-modal.active{
+  opacity:1;
+  visibility:visible;
+  pointer-events:auto;
+}
+
+.artifact-modal-card{
+  width:min(780px, 100%);
+  max-height:88vh;
+  overflow:auto;
+  border-radius:18px;
+  border:1px solid rgba(255,255,255,.20);
+  background:
+    radial-gradient(circle at top, rgba(255,255,255,.08), transparent 42%),
+    rgba(0,0,0,.96);
+  box-shadow:0 28px 80px rgba(0,0,0,.86);
+  padding:24px;
+}
+
+.artifact-modal-header{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:16px;
+  padding-bottom:12px;
+  margin-bottom:18px;
+  border-bottom:1px solid rgba(255,255,255,.10);
+}
+
+.artifact-modal-title{
+  margin:0;
+  font-size:28px;
+  font-weight:700;
+  letter-spacing:.10em;
+  text-transform:uppercase;
+  color:#fff;
+}
+
+.artifact-modal-body{
+  text-align:center;
+}
+
+.artifact-modal-image{
+  width:100%;
+  max-height:460px;
+  object-fit:contain;
+  display:block;
+  margin:0 auto 18px;
+  filter:drop-shadow(0 0 34px rgba(255,255,255,.16));
+}
+
+.artifact-modal-source{
+  font-size:12px;
+  letter-spacing:.16em;
+  text-transform:uppercase;
+  color:rgba(255,255,255,.50);
+  margin-bottom:12px;
+}
+
+.artifact-modal-meaning{
+  max-width:620px;
+  margin:0 auto;
+  font-size:16px;
+  line-height:1.6;
+  color:rgba(255,255,255,.78);
 }
 
 /* UPGRADE: Briefing folder uses briefing-section spacing, so these are softened when nested. */
@@ -1235,6 +1348,18 @@ body{
 
     .artifact-vault-grid{
       grid-template-columns:1fr;
+    }
+
+    .artifact-modal-card{
+      padding:20px;
+    }
+
+    .artifact-modal-title{
+      font-size:22px;
+    }
+
+    .artifact-modal-image{
+      max-height:360px;
     }
 
     .briefing-folder{
@@ -1531,6 +1656,23 @@ body{
       <div id="artifactVaultContent" class="artifact-vault-content">
         No artifacts secured yet.
       </div>
+    </div>
+  </div>
+</section>
+
+<!-- UPGRADE: Artifact detail modal.
+     Clicking an artifact image opens a larger view with its meaning. -->
+<section id="artifactModal" class="artifact-modal" aria-label="Artifact detail dialog">
+  <div class="artifact-modal-card">
+    <div class="artifact-modal-header">
+      <h2 id="artifactModalTitle" class="artifact-modal-title">Artifact</h2>
+      <button class="help-close-btn" onclick="closeArtifactModal()" aria-label="Close artifact view">Close ×</button>
+    </div>
+
+    <div class="artifact-modal-body">
+      <img id="artifactModalImage" class="artifact-modal-image" src="" alt="">
+      <div id="artifactModalSource" class="artifact-modal-source"></div>
+      <div id="artifactModalMeaning" class="artifact-modal-meaning"></div>
     </div>
   </div>
 </section>
@@ -2062,6 +2204,14 @@ function renderUserLog(){
    Later, boss-specific artifact keys can unlock each artifact one by one.
    ========================================================= */
 
+function escapeForAttribute(value){
+  return String(value)
+    .replace(/\\/g, "\\\\")
+    .replace(/'/g, "\\'")
+    .replace(/"/g, "&quot;")
+    .replace(/\n/g, " ");
+}
+
 function renderArtifactVault(){
   const container = document.getElementById("artifactVaultContent");
   if(!container) return;
@@ -2076,24 +2226,37 @@ function renderArtifactVault(){
       const artifacts = game.artifacts || [];
 
       artifacts.forEach(artifact => {
-        const artifactImage = completed && artifact.image
-  ? `<img class="artifact-image" src="${artifact.image}" alt="${artifact.name}">`
-  : `<div class="artifact-placeholder">Locked Artifact</div>`;
+        const safeName = escapeForAttribute(artifact.name || "");
+        const safeSource = escapeForAttribute(artifact.source || "");
+        const safeMeaning = escapeForAttribute(artifact.meaning || "");
+        const safeImage = escapeForAttribute(artifact.image || "");
 
-artifactCards.push(`
-  <div class="artifact-card ${completed ? "unlocked" : "locked"}">
-    <div class="artifact-image-wrap">
-      ${artifactImage}
-    </div>
+        const artifactImage = completed
+          ? (artifact.image
+              ? `
+                <button class="artifact-image-button"
+                  onclick="openArtifactModal('${safeImage}', '${safeName}', '${safeSource}', '${safeMeaning}')"
+                  aria-label="Open ${safeName}">
+                  <img class="artifact-image" src="${artifact.image}" alt="${artifact.name}">
+                </button>
+              `
+              : `<div class="artifact-placeholder">Image Missing</div>`)
+          : `<div class="artifact-placeholder">Locked Artifact</div>`;
 
-    <div class="artifact-name">${completed ? artifact.name : "Unknown Artifact"}</div>
-    <div class="artifact-source">${completed ? artifact.source : game.title}</div>
-    <div class="artifact-meaning">
-      ${completed ? artifact.meaning : "Restore this system to reveal the artifact and its meaning."}
-    </div>
-    <div class="artifact-status">${completed ? "Secured" : "Locked"}</div>
-  </div>
-`);
+        artifactCards.push(`
+          <div class="artifact-card ${completed ? "unlocked" : "locked"}">
+            <div class="artifact-image-wrap">
+              ${artifactImage}
+            </div>
+
+            <div class="artifact-name">${completed ? artifact.name : "Unknown Artifact"}</div>
+            <div class="artifact-source">${completed ? artifact.source : game.title}</div>
+            <div class="artifact-meaning">
+              ${completed ? artifact.meaning : "Restore this system to reveal the artifact and its meaning."}
+            </div>
+            <div class="artifact-status">${completed ? "Secured" : "Locked"}</div>
+          </div>
+        `);
       });
     });
 
@@ -2103,6 +2266,31 @@ artifactCards.push(`
   }
 
   container.innerHTML = `<div class="artifact-vault-grid">${artifactCards.join("")}</div>`;
+}
+
+function openArtifactModal(image, name, source, meaning){
+  const modal = document.getElementById("artifactModal");
+  const modalImage = document.getElementById("artifactModalImage");
+  const modalTitle = document.getElementById("artifactModalTitle");
+  const modalSource = document.getElementById("artifactModalSource");
+  const modalMeaning = document.getElementById("artifactModalMeaning");
+
+  if(!modal || !modalImage || !modalTitle || !modalSource || !modalMeaning) return;
+
+  modalImage.src = image;
+  modalImage.alt = name;
+  modalTitle.innerText = name;
+  modalSource.innerText = source;
+  modalMeaning.innerText = meaning;
+
+  modal.classList.add("active");
+}
+
+function closeArtifactModal(){
+  const modal = document.getElementById("artifactModal");
+  if(modal){
+    modal.classList.remove("active");
+  }
 }
 
 /* =========================================================
@@ -2363,8 +2551,14 @@ function selectGame(gameKey){
   
  document.addEventListener("keydown", event => {
   if(event.key === "Escape"){
+    const artifactModal = document.getElementById("artifactModal");
     const realmMenuModal = document.getElementById("realmMenuModal");
     const helpModal = document.getElementById("helpModal");
+
+    if(artifactModal && artifactModal.classList.contains("active")){
+      closeArtifactModal();
+      return;
+    }
 
     if(realmMenuModal && realmMenuModal.classList.contains("active")){
       closeRealmMenu();
