@@ -1123,6 +1123,40 @@ body{
   color:#fbbf24;
 }
 
+.artifact-image-wrap{
+  width:100%;
+  height:150px;
+  margin-bottom:12px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  border-radius:12px;
+  border:1px solid rgba(255,255,255,.12);
+  background:
+    radial-gradient(circle at center, rgba(255,255,255,.08), transparent 58%),
+    rgba(0,0,0,.28);
+  overflow:hidden;
+}
+
+.artifact-image{
+  max-width:100%;
+  max-height:100%;
+  object-fit:contain;
+  display:block;
+}
+
+.artifact-card.locked .artifact-image-wrap{
+  opacity:.45;
+  filter:grayscale(1);
+}
+
+.artifact-placeholder{
+  font-size:11px;
+  letter-spacing:.16em;
+  text-transform:uppercase;
+  color:rgba(255,255,255,.42);
+}
+
 /* UPGRADE: Briefing folder uses briefing-section spacing, so these are softened when nested. */
 .briefing-section.next-mission-box,
 .briefing-section.realm-narrative-box{
@@ -1609,22 +1643,25 @@ const games = {
     storyActive: "The National Ledger is under audit. The records are incomplete, but the system is being recovered.",
     storyRestored: "The National Ledger has been restored. The Realm can now measure income, prices, growth, and labor conditions.",
     artifacts: [
-      {
-        name: "Registrar’s Seal",
-        source: "The Registrar",
-        meaning: "Represents measuring national output and separating what counts from what does not."
-      },
-      {
-        name: "Warden’s Prism",
-        source: "The Warden",
-        meaning: "Represents inflation, CPI, real values, and the danger of reading prices at face value."
-      },
-      {
-        name: "Comptroller’s Crown",
-        source: "The Comptroller",
-        meaning: "Represents growth, productivity, unemployment, and the broader health of the economy."
-      }
-    ]
+  {
+    name: "Frontier Compass",
+    source: "Frontier Keeper",
+    image: "compass.png",
+    meaning: "Represents opportunity cost, tradeoffs, and the discipline of choosing one path over another."
+  },
+  {
+    name: "Signal Lens",
+    source: "Signal Broker",
+    image: "lens.png",
+    meaning: "Represents supply, demand, and the ability to read market signals instead of guessing."
+  },
+  {
+    name: "Magistrate’s Scales",
+    source: "Price Magistrate",
+    image: "scales.png",
+    meaning: "Represents price controls, taxes, and the hidden consequences of policy intervention."
+  }
+]
   },
 
   equilibriumCrisis: {
@@ -2036,16 +2073,24 @@ function renderArtifactVault(){
       const artifacts = game.artifacts || [];
 
       artifacts.forEach(artifact => {
-        artifactCards.push(`
-          <div class="artifact-card ${completed ? "unlocked" : "locked"}">
-            <div class="artifact-name">${completed ? artifact.name : "Unknown Artifact"}</div>
-            <div class="artifact-source">${completed ? artifact.source : game.title}</div>
-            <div class="artifact-meaning">
-              ${completed ? artifact.meaning : "Restore this system to reveal the artifact and its meaning."}
-            </div>
-            <div class="artifact-status">${completed ? "Secured" : "Locked"}</div>
-          </div>
-        `);
+        const artifactImage = completed && artifact.image
+  ? `<img class="artifact-image" src="${artifact.image}" alt="${artifact.name}">`
+  : `<div class="artifact-placeholder">Locked Artifact</div>`;
+
+artifactCards.push(`
+  <div class="artifact-card ${completed ? "unlocked" : "locked"}">
+    <div class="artifact-image-wrap">
+      ${artifactImage}
+    </div>
+
+    <div class="artifact-name">${completed ? artifact.name : "Unknown Artifact"}</div>
+    <div class="artifact-source">${completed ? artifact.source : game.title}</div>
+    <div class="artifact-meaning">
+      ${completed ? artifact.meaning : "Restore this system to reveal the artifact and its meaning."}
+    </div>
+    <div class="artifact-status">${completed ? "Secured" : "Locked"}</div>
+  </div>
+`);
       });
     });
 
