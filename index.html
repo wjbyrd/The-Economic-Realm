@@ -341,6 +341,102 @@ body{
   letter-spacing:.04em;
 }
 
+/* =========================================================
+   UPGRADE: Collapsible Briefing Folder
+   - Replaces the bulky always-open realm status block.
+   - Students can open the folder to check status, next mission,
+     and campaign briefing without burying the mission cards.
+   ========================================================= */
+.briefing-folder{
+  width:min(760px, 100%);
+  margin:22px auto 0;
+  border-radius:18px;
+  border:1px solid rgba(255,255,255,.16);
+  background:
+    radial-gradient(circle at top, rgba(255,255,255,.08), transparent 55%),
+    rgba(0,0,0,.38);
+  box-shadow:
+    0 0 24px rgba(255,255,255,.055),
+    inset 0 0 20px rgba(255,255,255,.03);
+  overflow:hidden;
+}
+
+.briefing-folder-header{
+  width:100%;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:16px;
+  padding:16px 18px;
+  border:none;
+  background:transparent;
+  color:#fff;
+  cursor:pointer;
+  text-align:left;
+}
+
+.briefing-folder-label{
+  font-size:10px;
+  letter-spacing:.24em;
+  text-transform:uppercase;
+  color:rgba(255,255,255,.42);
+  margin-bottom:5px;
+}
+
+.briefing-folder-title{
+  font-size:20px;
+  letter-spacing:.12em;
+  text-transform:uppercase;
+  color:rgba(255,255,255,.92);
+  font-weight:700;
+}
+
+.briefing-folder-subtext{
+  margin-top:5px;
+  font-size:13px;
+  letter-spacing:.06em;
+  color:rgba(255,255,255,.56);
+}
+
+.briefing-folder-toggle{
+  flex:0 0 auto;
+  padding:8px 12px;
+  border-radius:999px;
+  border:1px solid rgba(255,255,255,.18);
+  color:rgba(255,255,255,.70);
+  font-size:10px;
+  letter-spacing:.16em;
+  text-transform:uppercase;
+}
+
+.briefing-folder-body{
+  display:none;
+  padding:0 18px 18px;
+}
+
+.briefing-folder.open .briefing-folder-body{
+  display:block;
+}
+
+.briefing-section{
+  margin-top:12px;
+  padding:14px;
+  border-radius:14px;
+  border:1px solid rgba(255,255,255,.11);
+  background:
+    linear-gradient(180deg, rgba(255,255,255,.055), rgba(255,255,255,.025)),
+    rgba(0,0,0,.25);
+  text-align:center;
+}
+
+.briefing-section-label{
+  font-size:10px;
+  letter-spacing:.22em;
+  text-transform:uppercase;
+  color:rgba(255,255,255,.44);
+  margin-bottom:6px;
+}
+
 #mainMenu{
   position:relative;
   overflow:hidden;
@@ -1027,6 +1123,12 @@ body{
   color:#fbbf24;
 }
 
+/* UPGRADE: Briefing folder uses briefing-section spacing, so these are softened when nested. */
+.briefing-section.next-mission-box,
+.briefing-section.realm-narrative-box{
+  margin:12px 0 0;
+}
+
   @keyframes statusPulse{
     0%,100%{opacity:.35;}
     50%{opacity:.75;}
@@ -1101,6 +1203,26 @@ body{
       grid-template-columns:1fr;
     }
 
+    .briefing-folder{
+      margin-top:18px;
+    }
+
+    .briefing-folder-header{
+      padding:14px 15px;
+    }
+
+    .briefing-folder-title{
+      font-size:17px;
+    }
+
+    .briefing-folder-subtext{
+      font-size:12px;
+    }
+
+    .briefing-folder-toggle{
+      padding:7px 10px;
+    }
+
     .game-card.restored .game-thumb::before,
     .game-card.contested .game-thumb::before,
     .game-card.locked .game-thumb::before{
@@ -1145,30 +1267,38 @@ body{
         Select a mission. Each mission restores a different economic system, adapts to your performance, and reports completion when you finish.
       </p>
 
-      <div class="realm-status-panel" aria-label="Realm campaign status">
-        <div class="realm-status-label">Realm Status</div>
-        <div id="realmStatusText" class="realm-status-text">0 of 5 systems restored</div>
-        <div id="realmStatusSubtext" class="realm-status-subtext">
-          The Economic Realm remains unstable. Complete missions to restore each system and bring the Realm back into equilibrium.
-        </div>
-
-        <!-- UPGRADE: Sequential campaign guidance. Students should play these in order. -->
-        <div id="nextMissionBox" class="next-mission-box">
-          <div class="next-mission-label">Next Mission</div>
-          <div id="nextMissionTitle" class="next-mission-title">The Market Gate</div>
-          <div id="nextMissionReason" class="next-mission-reason">
-            Restore the first system to begin stabilizing the Realm.
+      <!-- UPGRADE: Collapsible Briefing Folder.
+           Keeps the top of the hub compact on mobile while preserving status,
+           ordered next mission guidance, and short campaign storytelling. -->
+      <div class="briefing-folder collapsed" id="briefingFolder">
+        <button class="briefing-folder-header" onclick="toggleBriefingFolder()" aria-expanded="false" aria-controls="briefingFolderBody">
+          <div>
+            <div class="briefing-folder-label">Briefing Folder</div>
+            <div id="briefingFolderTitle" class="briefing-folder-title">0 of 5 systems restored</div>
+            <div id="briefingFolderSubtext" class="briefing-folder-subtext">Next Mission: The Market Gate</div>
           </div>
-          <button id="nextMissionButton" class="next-mission-button" onclick="launchNextMission()">
-            Begin Next Mission
-          </button>
-        </div>
+          <span id="briefingFolderToggle" class="briefing-folder-toggle">Open</span>
+        </button>
 
-        <!-- UPGRADE: Light storytelling layer tied to campaign progress. -->
-        <div id="realmNarrativeBox" class="realm-narrative-box">
-          <div class="realm-narrative-label">Realm Briefing</div>
-          <div id="realmNarrativeText" class="realm-narrative-text">
-            The Realm is unstable. Restore each system in sequence to bring the economic order back online.
+        <div class="briefing-folder-body" id="briefingFolderBody">
+          <!-- UPGRADE: Sequential campaign guidance. Students should play these in order. -->
+          <div id="nextMissionBox" class="briefing-section next-mission-box">
+            <div class="briefing-section-label">Next Mission</div>
+            <div id="nextMissionTitle" class="next-mission-title">The Market Gate</div>
+            <div id="nextMissionReason" class="next-mission-reason">
+              Restore the first system to begin stabilizing the Realm.
+            </div>
+            <button id="nextMissionButton" class="next-mission-button" onclick="launchNextMission()">
+              Begin Next Mission
+            </button>
+          </div>
+
+          <!-- UPGRADE: Light storytelling layer tied to campaign progress. -->
+          <div id="realmNarrativeBox" class="briefing-section realm-narrative-box">
+            <div class="briefing-section-label">Realm Briefing</div>
+            <div id="realmNarrativeText" class="realm-narrative-text">
+              The Realm is unstable. Restore each system in sequence to bring the economic order back online.
+            </div>
           </div>
         </div>
       </div>
@@ -1614,6 +1744,7 @@ const games = {
     syncRealmSaveFromExistingKeys();
 
     updateGameStatuses();
+    restoreBriefingFolderState();
     updateSoundToggle();
 
     setTimeout(() => {
@@ -1657,6 +1788,76 @@ function closeHelpModal(){
 
 function pluralize(count, singular, plural){
   return count === 1 ? singular : plural;
+}
+
+/* =========================================================
+   UPGRADE: Collapsible Briefing Folder controls.
+   The open/closed state is saved locally so the folder behaves
+   the same way when the student returns to the hub.
+   ========================================================= */
+function toggleBriefingFolder(){
+  const folder = document.getElementById("briefingFolder");
+  const toggle = document.getElementById("briefingFolderToggle");
+  const header = folder ? folder.querySelector(".briefing-folder-header") : null;
+
+  if(!folder) return;
+
+  const isOpen = folder.classList.toggle("open");
+  folder.classList.toggle("collapsed", !isOpen);
+
+  if(toggle){
+    toggle.innerText = isOpen ? "Close" : "Open";
+  }
+
+  if(header){
+    header.setAttribute("aria-expanded", isOpen ? "true" : "false");
+  }
+
+  localStorage.setItem("economicRealm_briefingOpen", isOpen ? "true" : "false");
+}
+
+function restoreBriefingFolderState(){
+  const folder = document.getElementById("briefingFolder");
+  const toggle = document.getElementById("briefingFolderToggle");
+  const header = folder ? folder.querySelector(".briefing-folder-header") : null;
+
+  if(!folder) return;
+
+  const shouldOpen = localStorage.getItem("economicRealm_briefingOpen") === "true";
+
+  folder.classList.toggle("open", shouldOpen);
+  folder.classList.toggle("collapsed", !shouldOpen);
+
+  if(toggle){
+    toggle.innerText = shouldOpen ? "Close" : "Open";
+  }
+
+  if(header){
+    header.setAttribute("aria-expanded", shouldOpen ? "true" : "false");
+  }
+}
+
+function updateBriefingFolderSummary(restoredCount, totalMissions){
+  const title = document.getElementById("briefingFolderTitle");
+  const subtext = document.getElementById("briefingFolderSubtext");
+
+  if(title){
+    title.innerText = `${restoredCount} of ${totalMissions} systems restored`;
+  }
+
+  if(subtext){
+    if(nextMissionKey && games[nextMissionKey]){
+      const game = games[nextMissionKey];
+      const started = localStorage.getItem(game.startedKey) === "true";
+      const room = localStorage.getItem(game.roomKey);
+
+      subtext.innerText = started && room
+        ? `Continue: ${game.title} · Room ${room}`
+        : `Next Mission: ${game.title}`;
+    } else {
+      subtext.innerText = "All systems restored";
+    }
+  }
 }
 
 /* =========================================================
@@ -2081,9 +2282,10 @@ function updateGameStatuses(){
     }
   }
 
-  // UPGRADE: Keep the campaign guidance, story layer, and vault current.
+  // UPGRADE: Keep the campaign guidance, story layer, compact folder summary, and vault current.
   updateNextMission();
   updateRealmNarrative();
+  updateBriefingFolderSummary(restoredCount, totalMissions);
   renderArtifactVault();
 }
   
