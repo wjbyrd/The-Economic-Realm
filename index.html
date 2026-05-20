@@ -1123,6 +1123,75 @@ body{
   color:#fbbf24;
 }
 
+/* =========================================================
+   UPGRADE: Student Progress Recovery
+   - Lets students restore local completion status if Safari
+     or another browser wipes localStorage.
+   ========================================================= */
+
+.recovery-form{
+  margin-top:16px;
+  display:grid;
+  gap:10px;
+}
+
+.recovery-label{
+  font-size:11px;
+  letter-spacing:.14em;
+  text-transform:uppercase;
+  color:rgba(255,255,255,.52);
+}
+
+.recovery-input{
+  width:100%;
+  padding:12px 13px;
+  border-radius:10px;
+  border:1px solid rgba(255,255,255,.18);
+  background:rgba(0,0,0,.42);
+  color:rgba(255,255,255,.88);
+  outline:none;
+}
+
+.recovery-input:focus{
+  border-color:rgba(255,255,255,.42);
+  box-shadow:0 0 18px rgba(255,255,255,.08);
+}
+
+.recovery-button{
+  margin-top:6px;
+  padding:12px 14px;
+  border-radius:999px;
+  border:1px solid rgba(255,255,255,.22);
+  background:linear-gradient(180deg, rgba(255,255,255,.15), rgba(255,255,255,.05));
+  color:rgba(255,255,255,.88);
+  cursor:pointer;
+  font-size:12px;
+  letter-spacing:.14em;
+  text-transform:uppercase;
+}
+
+.recovery-button:hover{
+  color:#fff;
+  border-color:rgba(255,255,255,.42);
+  background:linear-gradient(180deg, rgba(255,255,255,.22), rgba(255,255,255,.08));
+}
+
+.recovery-message{
+  min-height:20px;
+  margin-top:4px;
+  font-size:13px;
+  line-height:1.4;
+  color:rgba(255,255,255,.66);
+}
+
+.recovery-message.success{
+  color:#fbbf24;
+}
+
+.recovery-message.error{
+  color:#f87171;
+}
+
 .artifact-image-wrap{
   width:100%;
   margin-bottom:18px;
@@ -1645,11 +1714,12 @@ body{
     </div>
 
     <div class="realm-menu-actions">
-      <button class="realm-menu-action" onclick="toggleMenuMusic()">Toggle Sound</button>
-      <button class="realm-menu-action" onclick="showRealmPanel('instructionsPanel')">Instructions</button>
-      <button class="realm-menu-action" onclick="showRealmPanel('userLogPanel')">User Log</button>
-      <button class="realm-menu-action" onclick="showRealmPanel('artifactVaultPanel')">Artifact Vault</button>
-    </div>
+  <button class="realm-menu-action" onclick="toggleMenuMusic()">Toggle Sound</button>
+  <button class="realm-menu-action" onclick="showRealmPanel('instructionsPanel')">Instructions</button>
+  <button class="realm-menu-action" onclick="showRealmPanel('userLogPanel')">User Log</button>
+  <button class="realm-menu-action" onclick="showRealmPanel('artifactVaultPanel')">Artifact Vault</button>
+  <button class="realm-menu-action" onclick="showRealmPanel('recoveryPanel')">Restore Progress</button>
+</div>
 
     <div id="instructionsPanel" class="realm-panel active">
       <p>Choose a mission to begin reviewing.</p>
@@ -1674,6 +1744,28 @@ body{
         No artifacts secured yet.
       </div>
     </div>
+
+ <div id="recoveryPanel" class="realm-panel">
+  <p>If your browser lost local progress, enter a mission recovery code to restore the completed mission on this device.</p>
+
+  <div class="recovery-form">
+    <label class="recovery-label" for="recoveryMission">Mission</label>
+    <select id="recoveryMission" class="recovery-input">
+      <option value="marketGate">The Market Gate</option>
+      <option value="nationalLedger">The National Ledger</option>
+      <option value="equilibriumCrisis">The Equilibrium Crisis</option>
+      <option value="liquidityGrid">The Liquidity Grid</option>
+      <option value="stabilizationProtocol">The Stabilization Protocol</option>
+    </select>
+
+    <label class="recovery-label" for="recoveryCode">Recovery Code</label>
+    <input id="recoveryCode" class="recovery-input" type="text" placeholder="Enter recovery code">
+
+    <button class="recovery-button" onclick="restoreMissionFromCode()">Restore Mission</button>
+
+    <div id="recoveryMessage" class="recovery-message"></div>
+   </div>
+   </div>
   </div>
 </section>
 
@@ -1758,6 +1850,7 @@ const games = {
     statusKey: "economicRealm_marketGate_complete",
     startedKey: "economicRealm_marketGate_started",
     roomKey: "economicRealm_marketGate_room",
+    recoveryCode: "MARKET-RESTORED",
     unstableText: "Signals Unstable",
     contestedText: "Signals Contested",
     restoredText: "Gate Restored",
@@ -1802,6 +1895,7 @@ const games = {
     statusKey: "economicRealm_nationalLedger_complete",
     startedKey: "economicRealm_nationalLedger_started",
     roomKey: "economicRealm_nationalLedger_room",
+    recoveryCode: "LEDGER-RESTORED",
     unstableText: "Ledger Unread",
     contestedText: "Audit Underway",
     restoredText: "Ledger Restored",
@@ -1840,6 +1934,7 @@ const games = {
     statusKey: "economicRealm_equilibriumCrisis_complete",
     startedKey: "economicRealm_equilibriumCrisis_started",
     roomKey: "economicRealm_equilibriumCrisis_room",
+    recoveryCode: "EQUILIBRIUM-SEALED",
     unstableText: "Balance Fractured",
     contestedText: "Crisis Active",
     restoredText: "Balance Sealed",
@@ -1875,6 +1970,7 @@ const games = {
     statusKey: "economicRealm_liquidityGrid_complete",
     startedKey: "economicRealm_liquidityGrid_started",
     roomKey: "economicRealm_liquidityGrid_room",
+    recoveryCode: "LIQUIDITY-RESTORED",
     unstableText: "Grid Offline",
     contestedText: "Channels Disrupted",
     restoredText: "Grid Reopened",
@@ -1910,6 +2006,7 @@ const games = {
     statusKey: "economicRealm_stabilizationProtocol_complete",
     startedKey: "economicRealm_stabilizationProtocol_started",
     roomKey: "economicRealm_stabilizationProtocol_room",
+    recoveryCode: "STABILIZATION-COMPLETE",
     unstableText: "Protocol Locked",
     contestedText: "Protocol Running",
     restoredText: "System Stabilized",
@@ -2196,6 +2293,87 @@ function showRealmPanel(panelId){
   if(panelId === "artifactVaultPanel"){
     renderArtifactVault();
   }
+  
+  if(panelId === "recoveryPanel"){
+  const message = document.getElementById("recoveryMessage");
+  const codeInput = document.getElementById("recoveryCode");
+
+  if(message){
+    message.className = "recovery-message";
+    message.innerText = "";
+  }
+
+  if(codeInput){
+    codeInput.value = "";
+  }
+}
+}
+
+/* =========================================================
+   UPGRADE: Student Progress Recovery
+   - Restores completed mission localStorage keys from a
+     recovery code if the browser wipes local progress.
+   ========================================================= */
+
+function normalizeRecoveryCode(value){
+  return String(value || "")
+    .trim()
+    .toUpperCase()
+    .replace(/\s+/g, "");
+}
+
+function restoreMissionFromCode(){
+  const missionSelect = document.getElementById("recoveryMission");
+  const codeInput = document.getElementById("recoveryCode");
+  const message = document.getElementById("recoveryMessage");
+
+  if(!missionSelect || !codeInput || !message){
+    return;
+  }
+
+  const gameKey = missionSelect.value;
+  const game = games[gameKey];
+
+  if(!game){
+    message.className = "recovery-message error";
+    message.innerText = "Mission not found.";
+    return;
+  }
+
+  const enteredCode = normalizeRecoveryCode(codeInput.value);
+  const expectedCode = normalizeRecoveryCode(game.recoveryCode);
+
+  if(!enteredCode){
+    message.className = "recovery-message error";
+    message.innerText = "Enter a recovery code first.";
+    return;
+  }
+
+  if(!expectedCode || enteredCode !== expectedCode){
+    message.className = "recovery-message error";
+    message.innerText = "That recovery code does not match this mission.";
+    return;
+  }
+
+  localStorage.setItem(game.statusKey, "true");
+  localStorage.setItem(game.startedKey, "true");
+  localStorage.setItem(game.roomKey, "30");
+
+  recordMissionProgress(gameKey, {
+    started: true,
+    completed: true,
+    room: 30,
+    logMessage: `${game.title} restored from recovery code.`
+  });
+
+  updateGameStatuses();
+  renderUserLog();
+  renderArtifactVault();
+
+  message.className = "recovery-message success";
+  message.innerText = `${game.title} restored on this device.`;
+
+  codeInput.value = "";
 }
 
 function renderUserLog(){
