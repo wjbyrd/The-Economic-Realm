@@ -1270,6 +1270,23 @@ body{
   color:rgba(255,255,255,.78);
 }
 
+.artifact-modal-field{
+  max-width:620px;
+  margin:10px auto 0;
+  font-size:15px;
+  line-height:1.55;
+  color:rgba(255,255,255,.72);
+  text-align:left;
+}
+
+.artifact-modal-field span{
+  color:rgba(255,255,255,.92);
+  font-weight:700;
+  letter-spacing:.08em;
+  text-transform:uppercase;
+  font-size:12px;
+}
+
 /* UPGRADE: Briefing folder uses briefing-section spacing, so these are softened when nested. */
 .briefing-section.next-mission-box,
 .briefing-section.realm-narrative-box{
@@ -1673,6 +1690,8 @@ body{
       <img id="artifactModalImage" class="artifact-modal-image" src="" alt="">
       <div id="artifactModalSource" class="artifact-modal-source"></div>
       <div id="artifactModalMeaning" class="artifact-modal-meaning"></div>
+      <div id="artifactModalConceptPower" class="artifact-modal-field"></div>
+      <div id="artifactModalWhyItMatters" class="artifact-modal-field"></div>
     </div>
   </div>
 </section>
@@ -1754,19 +1773,25 @@ const games = {
     name: "Frontier Compass",
     source: "Frontier Keeper",
     image: "compass.png",
-    meaning: "Represents opportunity cost, tradeoffs, and the discipline of choosing one path over another."
+    meaning: "The Frontier Compass represents opportunity cost and the discipline of choosing one path when every choice closes another.",
+    conceptPower: "Opportunity cost is the value of the next-best alternative given up, not just the money spent.",
+    whyItMatters: "Students often count visible costs and ignore what was sacrificed. The compass reminds them to look at the path not taken."
   },
   {
     name: "Signal Lens",
     source: "Signal Broker",
     image: "lens.png",
-    meaning: "Represents supply, demand, and the ability to read market signals instead of guessing."
+    meaning: "The Signal Lens represents supply, demand, and the ability to read market signals instead of guessing from surface-level changes.",
+    conceptPower: "Markets move through shifts, movements, shortages, surpluses, and equilibrium pressure.",
+    whyItMatters: "When students confuse a change in demand with a change in quantity demanded, the whole analysis falls apart. The lens is about seeing which curve moved and why."
   },
   {
     name: "Magistrate’s Scales",
     source: "Price Magistrate",
     image: "scales.png",
-    meaning: "Represents price controls, taxes, and the hidden consequences of policy intervention."
+    meaning: "The Magistrate’s Scales represent price controls, taxes, and the hidden tradeoffs created when policy changes market outcomes.",
+    conceptPower: "Ceilings, floors, and taxes create shortages, surpluses, wedges, burden sharing, and deadweight loss.",
+    whyItMatters: "Policy does not stop incentives. It redirects them. The scales remind students to ask who gains, who loses, and what unintended consequences show up."
   }
 ]
   },
@@ -2231,11 +2256,13 @@ function renderArtifactVault(){
         const safeMeaning = escapeForAttribute(artifact.meaning || "");
         const safeImage = escapeForAttribute(artifact.image || "");
 
+        const safeConceptPower = escapeForAttribute(artifact.conceptPower || "");
+        const safeWhyItMatters = escapeForAttribute(artifact.whyItMatters || "");
         const artifactImage = completed
           ? (artifact.image
               ? `
                 <button class="artifact-image-button"
-                  onclick="openArtifactModal('${safeImage}', '${safeName}', '${safeSource}', '${safeMeaning}')"
+                  onclick="openArtifactModal('${safeImage}', '${safeName}', '${safeSource}', '${safeMeaning}', '${safeConceptPower}', '${safeWhyItMatters}')"
                   aria-label="Open ${safeName}">
                   <img class="artifact-image" src="${artifact.image}" alt="${artifact.name}">
                 </button>
@@ -2268,12 +2295,14 @@ function renderArtifactVault(){
   container.innerHTML = `<div class="artifact-vault-grid">${artifactCards.join("")}</div>`;
 }
 
-function openArtifactModal(image, name, source, meaning){
+function openArtifactModal(image, name, source, meaning, conceptPower = "", whyItMatters = ""){
   const modal = document.getElementById("artifactModal");
   const modalImage = document.getElementById("artifactModalImage");
   const modalTitle = document.getElementById("artifactModalTitle");
   const modalSource = document.getElementById("artifactModalSource");
   const modalMeaning = document.getElementById("artifactModalMeaning");
+  const modalConceptPower = document.getElementById("artifactModalConceptPower");
+  const modalWhyItMatters = document.getElementById("artifactModalWhyItMatters");
 
   if(!modal || !modalImage || !modalTitle || !modalSource || !modalMeaning) return;
 
@@ -2282,6 +2311,18 @@ function openArtifactModal(image, name, source, meaning){
   modalTitle.innerText = name;
   modalSource.innerText = source;
   modalMeaning.innerText = meaning;
+
+  if(modalConceptPower){
+    modalConceptPower.innerHTML = conceptPower
+      ? `<span>Concept Power:</span> ${conceptPower}`
+      : "";
+  }
+
+  if(modalWhyItMatters){
+    modalWhyItMatters.innerHTML = whyItMatters
+      ? `<span>Why It Matters:</span> ${whyItMatters}`
+      : "";
+  }
 
   modal.classList.add("active");
 }
