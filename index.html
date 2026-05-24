@@ -1926,7 +1926,7 @@ const games = {
   {
     name: "Comptroller’s Crown",
     source: "The Comptroller",
-    image: "crown.PNG",
+    image: "crown.png",
     meaning: "The Comptroller’s Crown represents productivity, growth, unemployment, and the broader health of the economy.",
     conceptPower: "Long-run living standards depend heavily on productivity, while labor statistics reveal whether growth is reaching workers.",
     whyItMatters: "Students often treat GDP growth, productivity, and unemployment as separate facts. The crown reminds them that national performance has to be judged across output, prices, growth, and labor conditions together."
@@ -1935,41 +1935,50 @@ const games = {
 ]
   },
 
-  equilibriumCrisis: {
-    title: "The Equilibrium Crisis",
-    file: "https://wjbyrd.github.io/The-Equilibrium-Crisis/",
-    statusKey: "economicRealm_equilibriumCrisis_complete",
-    startedKey: "economicRealm_equilibriumCrisis_started",
-    roomKey: "economicRealm_equilibriumCrisis_room",
-    recoveryCode: "EQUILIBRIUM-SEALED",
-    unstableText: "Balance Fractured",
-    contestedText: "Crisis Active",
-    restoredText: "Balance Sealed",
-    artifactText: "Equilibrium seal secured · System restored",
-    sequence: 3,
-    buttonText: "Enter the Crisis",
-    nextReason: "The core records are restored. Now stabilize the collision point between market forces and macro systems.",
-    storyIntro: "The records are back online, but equilibrium remains fractured. Market forces and macro systems must be brought back into alignment.",
-    storyActive: "The Equilibrium Crisis is active. The collision point is unstable, but containment has started.",
-    storyRestored: "The Equilibrium Crisis has been sealed. The Realm’s balance is no longer breaking apart.",
-    artifacts: [
-      {
-        name: "Signal Shard",
-        source: "The Signal Breaker",
-        meaning: "Represents the fractured market signals that must be repaired before equilibrium can hold."
-      },
-      {
-        name: "Warden’s Gauge",
-        source: "The Measure Warden",
-        meaning: "Represents careful measurement under pressure when markets and macro systems collide."
-      },
-      {
-        name: "Equilibrium Seal",
-        source: "The Market Marshal",
-        meaning: "Represents restored balance after instability, shortage, surplus, and policy pressure."
-      }
-    ]
-  },
+ equilibriumCrisis: {
+  title: "The Equilibrium Crisis",
+  file: "https://wjbyrd.github.io/The-Equilibrium-Crisis/",
+  statusKey: "economicRealm_equilibriumCrisis_complete",
+  startedKey: "economicRealm_equilibriumCrisis_started",
+  roomKey: "economicRealm_equilibriumCrisis_room",
+  recoveryCode: "EQUILIBRIUM-SEALED",
+  unstableText: "Balance Fractured",
+  contestedText: "Crisis Active",
+  restoredText: "Balance Sealed",
+  artifactText: "Equilibrium crisis artifacts secured · System restored",
+  sequence: 3,
+  buttonText: "Enter the Crisis",
+  nextReason: "The core records are restored. Now stabilize the collision point between market forces and macro systems.",
+  storyIntro: "The records are back online, but equilibrium remains fractured. Market forces and macro systems must be brought back into alignment.",
+  storyActive: "The Equilibrium Crisis is active. The collision point is unstable, but containment has started.",
+  storyRestored: "The Equilibrium Crisis has been sealed. The Realm’s balance is no longer breaking apart.",
+  artifacts: [
+    {
+      name: "Signal Shard",
+      source: "The Signal Breaker",
+      image: "shard.png",
+      meaning: "The Signal Shard represents fractured market signals and the need to interpret tradeoffs, incentives, supply, demand, and equilibrium before the system breaks apart.",
+      conceptPower: "Markets coordinate choices through prices, incentives, and voluntary exchange, but those signals can fracture when scarcity, shocks, or policy distortions change behavior.",
+      whyItMatters: "Students often memorize supply and demand as separate curves instead of reading them as signals. The shard reminds them that prices carry information. When demand shifts, supply shifts, or incentives change, the signal changes too. Miss the signal and the market story falls apart."
+    },
+    {
+      name: "Warden’s Gauge",
+      source: "The Measure Warden",
+      image: "gauge.png",
+      meaning: "The Warden’s Gauge represents measurement under pressure when inflation, real values, productivity, unemployment, and market outcomes collide.",
+      conceptPower: "Economic measurement requires separating nominal changes from real changes, identifying labor-market status correctly, and recognizing when headline indicators hide deeper problems.",
+      whyItMatters: "Students often see higher wages, lower unemployment, or slower inflation and assume the economy is automatically better. The gauge reminds them to check what is actually being measured. A nominal wage can rise while real wages fall. Unemployment can fall because workers leave the labor force. A capped price can hide shortages instead of solving them."
+    },
+  {
+    name: "Marshal's Decree",
+    source: "The Marshal of Equilibrium",
+    image: "decree.png",
+    meaning: "The Marshal's Decree represents the authority to restore order when shortages, surpluses, taxes, price controls, inflation pressure, and labor-market disruption pull the realm out of balance.",
+    conceptPower: "The decree gives students a way to connect market forces, policy interventions, and macroeconomic measurement into one judgment. It is not just about finding equilibrium. It is about tracing how shocks move through prices, quantities, incentives, real values, employment, and welfare.",
+    whyItMatters: "Students often treat chapters as separate rooms: supply and demand over here, GDP over there, inflation somewhere else, unemployment after that. The Marshal's Decree tells them to stop doing that. Real analysis requires a ruling across the whole system. A policy can change prices, quantities, incentives, measured inflation, real wages, employment, and welfare at the same time. The decree is the order that forces those pieces back into one coherent judgment."
+  }
+  ]
+},
 
   liquidityGrid: {
     title: "The Liquidity Grid",
