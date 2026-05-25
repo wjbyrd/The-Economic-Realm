@@ -1993,25 +1993,34 @@ const games = {
     artifactText: "Liquidity grid artifacts secured · System restored",
     sequence: 4,
     buttonText: "Enter the Grid",
-    nextReason: "The crisis is contained. Now reopen the banking, reserves, deposits, and monetary channels.",
-    storyIntro: "With equilibrium contained, the monetary channels must reopen. Banking, reserves, deposits, and credit flows are still offline.",
+    nextReason: "The crisis is contained. Now reopen the banking, reserves, deposits, money value, and policy channels.",
+    storyIntro: "With equilibrium contained, the monetary channels must reopen. Banking, reserves, deposits, money value, inflation pressure, and policy transmission are still offline.",
     storyActive: "The Liquidity Grid is disrupted. The channels are damaged, but recovery is underway.",
-    storyRestored: "The Liquidity Grid has reopened. Money, banking, and credit channels are flowing again.",
+    storyRestored: "The Liquidity Grid has reopened. Money, banking, inflation signals, and policy channels are flowing again.",
     artifacts: [
       {
         name: "Reserve Key",
-        source: "The Reserve Keeper",
-        meaning: "Represents reserves, deposits, and the foundation of the banking system."
+        source: "The Reserve Custodian",
+        image: "reserve_key.png",
+        meaning: "The Reserve Key represents the foundation of the banking system: reserves, deposits, lending capacity, and the ability of banks to create money through fractional reserves.",
+        conceptPower: "Money creation depends on how banks manage deposits, reserves, excess reserves, loans, reserve requirements, and the money multiplier. The key unlocks the link between individual bank balance sheets and the broader money supply.",
+        whyItMatters: "Students often think banks simply hold deposits in a vault. That misses the whole engine. Banks keep reserves, lend the rest, and those loans become new deposits elsewhere in the system. The Reserve Key reminds them that money creation is not magic. It is balance sheets, reserve rules, lending behavior, and confidence working together."
       },
       {
-        name: "Credit Conduit",
-        source: "The Credit Warden",
-        meaning: "Represents how lending channels move money through the economy."
+        name: "Value Prism",
+        source: "The Value Wraith",
+        image: "value_prism.png",
+        meaning: "The Value Prism represents the split between nominal money and real purchasing power when inflation changes the value of money.",
+        conceptPower: "Inflation, the price level, nominal variables, real variables, the value of money, and the quantity theory all connect through the idea that money’s purchasing power changes when prices change.",
+        whyItMatters: "Students often see more dollars and assume people are richer. The prism tells them to stop falling for that trap. If prices rise faster than income, the same dollars buy less. Nominal GDP, nominal wages, and nominal interest rates can all rise while real value tells a different story. The Value Prism forces students to bend the signal and ask what actually changed."
       },
       {
-        name: "Liquidity Core",
-        source: "The Grid Architect",
-        meaning: "Represents the restored flow of money, credit, and monetary control."
+        name: "Policy Scepter",
+        source: "The Policy Banker",
+        image: "policy_scepter.png",
+        meaning: "The Policy Scepter represents monetary policy authority: the power to influence money supply, interest rates, liquidity, aggregate demand, inflation pressure, and short-run output.",
+        conceptPower: "Monetary policy works through liquidity channels. Open-market operations, interest rates, money demand, money supply, and aggregate demand are connected through the policy transmission process.",
+        whyItMatters: "Students often memorize that the Fed buys bonds or changes interest rates without tracing the chain. The scepter reminds them that policy moves through markets. A bond purchase can increase reserves, expand the money supply, lower interest rates, increase investment, and shift aggregate demand. But the chain can weaken if banks, borrowers, or households do not respond. That is where the real analysis starts."
       }
     ]
   },
