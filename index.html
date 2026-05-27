@@ -1508,8 +1508,8 @@ body{
       <p class="menu-kicker">The Economic Realm</p>
       <h1 class="menu-title">Choose Your Mission</h1>
 
-      <p class="menu-subtitle">
-        Select a mission. Each mission restores a different economic system, adapts to your performance, and reports completion when you finish.
+      <p class="chancellor-briefing">
+        The Chancellor has opened the Realm archive. Each restored system strengthens your command of the economy. Choose the next crisis, recover the artifacts, and prove your judgment holds under pressure.
       </p>
 
       <!-- UPGRADE: Collapsible Briefing Folder.
@@ -1518,7 +1518,7 @@ body{
       <div class="briefing-folder collapsed" id="briefingFolder">
         <button class="briefing-folder-header" onclick="toggleBriefingFolder()" aria-expanded="false" aria-controls="briefingFolderBody">
           <div>
-            <div class="briefing-folder-label">Briefing Folder</div>
+            <div class="briefing-folder-label">CHANCELLOR'S BRIEFING</div>
             <div id="briefingFolderTitle" class="briefing-folder-title">0 of 5 systems restored</div>
             <div id="briefingFolderSubtext" class="briefing-folder-subtext">Next Mission: The Market Gate</div>
           </div>
@@ -1540,7 +1540,7 @@ body{
 
           <!-- UPGRADE: Light storytelling layer tied to campaign progress. -->
           <div id="realmNarrativeBox" class="briefing-section realm-narrative-box">
-            <div class="briefing-section-label">Realm Briefing</div>
+            <div class="briefing-section-label">CHANCELLOR'S DIRECTIVE</div>
             <div id="realmNarrativeText" class="realm-narrative-text">
               The Realm is unstable. Restore each system in sequence to bring the economic order back online.
             </div>
@@ -1557,8 +1557,10 @@ body{
     <h2 class="game-title">The Market Gate</h2>
     <p class="game-tagline">Enter the realm through choice, trade, supply, demand, and market policy.</p>
     <!-- UPGRADE: Card-level story line and restored artifact badge. -->
-    <p class="mission-briefing" id="briefing-marketGate">First system breach. Restore market signals.</p>
-    <div class="restored-badge" id="badge-marketGate">Artifact secured · System restored</div>
+    <p class="mission-briefing" id="briefing-marketGate">
+      Chancellor’s directive: Restore the Market Gate by judging scarcity, trade, supply, demand, and policy pressure.
+    </p>
+    <div class="restored-badge" id="badge-marketGate">Chancellor verified · System restored</div>
 
     <div class="topic-list">
       <span class="topic-chip">Choice</span>
@@ -1583,10 +1585,11 @@ body{
     <p class="game-tagline">
       Measure the nation’s output, prices, growth, productivity, and labor market signals.
     </p>
-    <!-- UPGRADE: Card-level story line and restored artifact badge. -->
-    <p class="mission-briefing" id="briefing-nationalLedger">Second system breach. Restore national records.</p>
-    <div class="restored-badge" id="badge-nationalLedger">Artifact secured · System restored</div>
-
+    <p class="mission-briefing" id="briefing-nationalLedger">
+      Chancellor’s directive: Restore the national records before the Realm loses its measure of output, prices, growth, and labor.
+    </p>
+    <div class="restored-badge" id="badge-nationalLedger">Chancellor verified · System restored</div>
+    
     <div class="topic-list">
       <span class="topic-chip">GDP</span>
       <span class="topic-chip">Productivity</span>
@@ -1610,10 +1613,12 @@ body{
     <div class="game-thumb" aria-hidden="true"></div>
     <div class="game-content">
       <h2 class="game-title">The Equilibrium Crisis</h2>
-      <p class="game-tagline">Stabilize the collision point where market forces and macro systems meet.</p>
+      <p class="mission-briefing" id="briefing-equilibriumCrisis">
+        Chancellor’s directive: Stabilize the crisis by tracing how market shocks become shortages, surpluses, inflation signals, and welfare losses.
+      </p>
       <!-- UPGRADE: Card-level story line and restored artifact badge. -->
       <p class="mission-briefing" id="briefing-equilibriumCrisis">Third system breach. Contain the equilibrium fracture.</p>
-      <div class="restored-badge" id="badge-equilibriumCrisis">Artifact secured · System restored</div>
+      <div class="restored-badge" id="badge-equilibriumCrisis">Chancellor verified · System restored</div>
 
       <div class="topic-list">
         <span class="topic-chip">Midterm</span>
@@ -1635,7 +1640,7 @@ body{
       <p class="game-tagline">Move through banking, reserves, deposits, credit channels, and monetary control.</p>
       <!-- UPGRADE: Card-level story line and restored artifact badge. -->
       <p class="mission-briefing" id="briefing-liquidityGrid">Fourth system breach. Reopen monetary channels.</p>
-      <div class="restored-badge" id="badge-liquidityGrid">Artifact secured · System restored</div>
+      <div class="restored-badge" id="badge-liquidityGrid">Chancellor verified · System restored</div>
 
       <div class="topic-list">
         <span class="topic-chip">Ch. 30</span>
@@ -1654,19 +1659,25 @@ body{
     <div class="game-thumb" aria-hidden="true"></div>
     <div class="game-content">
       <h2 class="game-title">The Stabilization Protocol</h2>
-      <p class="game-tagline">Command the final system: money, open economy, aggregate demand, policy, and tradeoffs.</p>
+      <p class="game-tagline">
+        Command the final system: money, inflation, AD-AS, monetary policy, fiscal policy, and stabilization tradeoffs.
+      </p>
       <!-- UPGRADE: Card-level story line and restored artifact badge. -->
-      <p class="mission-briefing" id="briefing-stabilizationProtocol">Final system breach. Complete stabilization.</p>
-      <div class="restored-badge" id="badge-stabilizationProtocol">Artifact secured · System restored</div>
+      <p class="mission-briefing" id="briefing-stabilizationProtocol">
+        Chancellor’s directive: Bring the final protocol online by judging AD, AS, fiscal policy, monetary policy, and stabilization tradeoffs.
+      </p>
+      <div class="restored-badge" id="badge-stabilizationProtocol">Chancellor verified · System restored</div>
 
-      <div class="topic-list">
-        <span class="topic-chip">Final</span>
-        <span class="topic-chip">Ch. 30</span>
-        <span class="topic-chip">Ch. 31</span>
-        <span class="topic-chip">Ch. 34</span>
-        <span class="topic-chip">Ch. 35</span>
-        <span class="topic-chip">Ch. 36</span>
-      </div>
+    <div class="topic-list">
+      <span class="topic-chip">Final</span>
+      <span class="topic-chip">Money System</span>
+      <span class="topic-chip">Inflation</span>
+      <span class="topic-chip">AD-AS</span>
+      <span class="topic-chip">Fiscal Policy</span>
+      <span class="topic-chip">Monetary Policy</span>
+      <span class="topic-chip">Policy Tradeoffs</span>
+    </div>
+      
       <div class="game-meta">
         <div class="status-line"><span>Status</span><span class="status-value" id="status-stabilizationProtocol">Ready</span></div>
         <button class="enter-btn" onclick="selectGame('stabilizationProtocol')">Coming soon</button>
@@ -1995,7 +2006,7 @@ const games = {
     buttonText: "Enter the Grid",
     nextReason: "The crisis is contained. Now reopen the banking, reserves, deposits, money value, and policy channels.",
     storyIntro: "With equilibrium contained, the monetary channels must reopen. Banking, reserves, deposits, money value, inflation pressure, and policy transmission are still offline.",
-    storyActive: "The Liquidity Grid is disrupted. The channels are damaged, but recovery is underway.",
+    storyActive: "The Liquidity Grid is disrupted. Banking channels, reserves, deposits, and monetary control are unstable. Restore the system before the signal collapses.",
     storyRestored: "The Liquidity Grid has reopened. Money, banking, inflation signals, and policy channels are flowing again.",
     artifacts: [
       {
@@ -2024,42 +2035,50 @@ const games = {
       }
     ]
   },
-
-  stabilizationProtocol: {
-    title: "The Stabilization Protocol",
-    file: "https://wjbyrd.github.io/The-Stabilization-Protocol/",
-    statusKey: "economicRealm_stabilizationProtocol_complete",
-    startedKey: "economicRealm_stabilizationProtocol_started",
-    roomKey: "economicRealm_stabilizationProtocol_room",
-    recoveryCode: "STABILIZATION-COMPLETE",
-    unstableText: "Protocol Locked",
-    contestedText: "Protocol Running",
-    restoredText: "System Stabilized",
-    artifactText: "Stabilization protocol secured · Realm defense restored",
-    sequence: 5,
-    buttonText: "Enter the Protocol",
-    nextReason: "Only the final system remains. Complete the protocol to stabilize the Realm.",
-    storyIntro: "Only the final system remains. The Stabilization Protocol must bring money, open economy forces, policy, and tradeoffs under control.",
-    storyActive: "The Stabilization Protocol is running. The final system is not secure yet.",
-    storyRestored: "The Stabilization Protocol is complete. The Economic Realm has been restored.",
-    artifacts: [
-      {
-        name: "Policy Cipher",
-        source: "The Policy Sentinel",
-        meaning: "Represents the use of policy tools under changing economic conditions."
-      },
-      {
-        name: "Tradeoff Engine",
-        source: "The Stabilization Warden",
-        meaning: "Represents the hard choices created by inflation, unemployment, output, and policy timing."
-      },
-      {
-        name: "Realm Keystone",
-        source: "The Final Protocol",
-        meaning: "Represents full restoration of the Economic Realm after all systems are brought back online."
-      }
-    ]
-  }
+stabilizationProtocol: {
+  title: "The Stabilization Protocol",
+  file: "https://wjbyrd.github.io/The-Stabilization-Protocol/",
+  statusKey: "economicRealm_stabilizationProtocol_complete",
+  startedKey: "economicRealm_stabilizationProtocol_started",
+  roomKey: "economicRealm_stabilizationProtocol_room",
+  recoveryCode: "STABILIZATION-COMPLETE",
+  unstableText: "Protocol Locked",
+  contestedText: "Directive Active",
+  restoredText: "Realm Stabilized",
+  artifactText: "Stabilization protocol secured · Realm restored",
+  sequence: 5,
+  buttonText: "Enter the Protocol",
+  nextReason: "Only the final system remains. Bring AD, AS, monetary policy, fiscal policy, inflation pressure, and stabilization tradeoffs under control.",
+  storyIntro: "Only the final system remains. The Stabilization Protocol must bring money, inflation, AD-AS, monetary policy, fiscal policy, and stabilization tradeoffs under one final command.",
+  storyActive: "The Stabilization Protocol is running. The Chancellor’s final directive is active, but the Realm is not secure yet.",
+  storyRestored: "The Stabilization Protocol is complete. The Chancellor has verified the final system, and the Economic Realm has been restored.",
+  artifacts: [
+    {
+      name: "Policy Cipher",
+      source: "The Policy Sentinel",
+      image: "policy_cipher.png",
+      meaning: "The Policy Cipher represents the ability to read economic conditions and choose the correct stabilization response before policy mistakes deepen the crisis.",
+      conceptPower: "Stabilization policy requires identifying whether the economy is facing an aggregate demand shock, aggregate supply shock, recessionary gap, inflationary pressure, or policy transmission problem.",
+      whyItMatters: "Students often jump straight to 'increase spending' or 'cut interest rates' without diagnosing the shock first. The cipher reminds them that the right policy depends on what moved, why it moved, and what side effects follow."
+    },
+    {
+      name: "Tradeoff Engine",
+      source: "The Stabilization Warden",
+      image: "tradeoff_engine.png",
+      meaning: "The Tradeoff Engine represents the hard choices created when inflation, unemployment, output, interest rates, crowding out, and policy timing collide.",
+      conceptPower: "Fiscal and monetary policy can shift aggregate demand, but the multiplier effect, crowding out, inflation expectations, lags, and supply-side limits shape the final outcome.",
+      whyItMatters: "Students often treat stabilization as if policymakers pull one lever and the economy obeys. That is fantasy land. The engine reminds them that policy has timing problems, side effects, and tradeoffs. A policy can help output while raising inflation pressure, or fight inflation while increasing unemployment."
+    },
+    {
+      name: "Realm Keystone",
+      source: "The Final Protocol",
+      image: "realm_keystone.png",
+      meaning: "The Realm Keystone represents the final restoration of the Economic Realm when money, inflation, aggregate demand, aggregate supply, and policy judgment are brought together.",
+      conceptPower: "The final system requires students to connect monetary foundations, inflation, AD-AS analysis, fiscal policy, monetary policy, and stabilization choices into one coherent judgment.",
+      whyItMatters: "Students often leave macro with disconnected pieces: money over here, inflation over there, AD-AS somewhere else, policy at the end. The keystone tells them to stop doing that. Real macro analysis means tracing how one shock or policy moves through output, prices, employment, interest rates, expectations, and tradeoffs."
+    }
+  ]
+}
 };
 
   let selectedGame = null;
