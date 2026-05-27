@@ -301,6 +301,15 @@ body{
     letter-spacing:.04em;
   }
 
+.chancellor-briefing{
+  max-width:820px;
+  margin:12px auto 0;
+  font-size:15px;
+  line-height:1.45;
+  color:rgba(255,255,255,.70);
+  letter-spacing:.045em;
+}
+  
 .realm-status-panel{
   width:min(680px, 100%);
   margin:22px auto 0;
@@ -964,9 +973,9 @@ body{
   letter-spacing:.09em;
   text-transform:uppercase;
 }
-
+  
 .game-card.restored .restored-badge{
-  display:none;
+  display:block;
 }
 
 .game-card.restored{
@@ -1488,10 +1497,6 @@ body{
 
   <button id="soundToggle" class="sound-toggle" onclick="toggleMenuMusic()" aria-label="Toggle menu music">Sound Off</button>
 
-  <button id="helpButton" class="help-button" onclick="openHelpModal()" aria-label="Open instructions">
-  How This Works
-  </button>
-
   <!-- UPGRADE: Single dropdown-style Realm Menu replaces separate floating controls. -->
   <button id="realmMenuButton" class="realm-menu-button" onclick="openRealmMenu()" aria-label="Open realm menu">
     Realm Menu
@@ -1612,12 +1617,13 @@ body{
   <article class="game-card equilibrium-crisis">
     <div class="game-thumb" aria-hidden="true"></div>
     <div class="game-content">
-      <h2 class="game-title">The Equilibrium Crisis</h2>
+     <h2 class="game-title">The Equilibrium Crisis</h2>
+      <p class="game-tagline">
+        Stabilize the collision point between market forces, macro measurement, inflation pressure, and welfare losses.
+      </p>
       <p class="mission-briefing" id="briefing-equilibriumCrisis">
         Chancellor’s directive: Stabilize the crisis by tracing how market shocks become shortages, surpluses, inflation signals, and welfare losses.
       </p>
-      <!-- UPGRADE: Card-level story line and restored artifact badge. -->
-      <p class="mission-briefing" id="briefing-equilibriumCrisis">Third system breach. Contain the equilibrium fracture.</p>
       <div class="restored-badge" id="badge-equilibriumCrisis">Chancellor verified · System restored</div>
 
       <div class="topic-list">
@@ -1642,12 +1648,15 @@ body{
       <p class="mission-briefing" id="briefing-liquidityGrid">Fourth system breach. Reopen monetary channels.</p>
       <div class="restored-badge" id="badge-liquidityGrid">Chancellor verified · System restored</div>
 
-      <div class="topic-list">
-        <span class="topic-chip">Ch. 30</span>
-        <span class="topic-chip">Ch. 31</span>
-        <span class="topic-chip">Ch. 35</span>
-        <span class="topic-chip">Banking</span>
-      </div>
+    <div class="topic-list">
+      <span class="topic-chip">Money System</span>
+      <span class="topic-chip">Banking</span>
+      <span class="topic-chip">Reserves</span>
+      <span class="topic-chip">Inflation</span>
+      <span class="topic-chip">Money Value</span>
+      <span class="topic-chip">Monetary Policy</span>
+    </div>
+      
       <div class="game-meta">
         <div class="status-line"><span>Status</span><span class="status-value" id="status-liquidityGrid">Ready</span></div>
         <button class="enter-btn" onclick="selectGame('liquidityGrid')">Coming soon</button>
@@ -2118,21 +2127,6 @@ stabilizationProtocol: {
       input.value = savedEmail;
     }
   }
-
-function showHelpButton(){
-  const button = document.getElementById("helpButton");
-  if(button){
-    button.classList.add("visible");
-  }
-}
-
-function openHelpModal(){
-  document.getElementById("helpModal").classList.add("active");
-}
-
-function closeHelpModal(){
-  document.getElementById("helpModal").classList.remove("active");
-}
 
 function pluralize(count, singular, plural){
   return count === 1 ? singular : plural;
