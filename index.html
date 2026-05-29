@@ -449,7 +449,8 @@ body{
 
 #mainMenu{
   position:relative;
-  overflow:hidden;
+  overflow-y:auto;
+  overflow-x:hidden;
 }
 
 .menu-video-bg{
@@ -1488,6 +1489,62 @@ body{
       padding:6px 8px;
     }
   }
+
+/* =========================================================
+   MOBILE SCROLL FIX — ECONOMIC REALM
+   Keeps the Realm menu scrollable on phones.
+   Put this AFTER all other #mainMenu rules.
+   ========================================================= */
+
+html,
+body{
+  width:100%;
+  min-height:100%;
+}
+
+body{
+  overflow-x:hidden;
+  overflow-y:auto;
+}
+
+/* Main realm menu must own the scroll */
+#mainMenu{
+  min-height:100dvh;
+  height:100dvh;
+  overflow-y:auto !important;
+  overflow-x:hidden;
+  -webkit-overflow-scrolling:touch;
+  overscroll-behavior-y:contain;
+}
+
+/* Make sure the content can clear the fixed Realm Menu button */
+#mainMenu .menu-shell{
+  padding-bottom:120px;
+}
+
+/* Mobile tightening */
+@media (max-width:768px){
+  #mainMenu{
+    height:100dvh;
+    min-height:100dvh;
+    padding:22px 14px 120px;
+    overflow-y:auto !important;
+    -webkit-overflow-scrolling:touch;
+  }
+
+  .menu-shell{
+    padding-bottom:120px;
+  }
+
+  .game-grid{
+    grid-template-columns:1fr;
+  }
+
+  .game-card{
+    min-height:auto;
+  }
+}
+  
 </style>
 </head>
 
