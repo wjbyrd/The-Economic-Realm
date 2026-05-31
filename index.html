@@ -3338,39 +3338,56 @@ function renderAchievements(){
   const totalCount = achievements.length;
   const progressPct = totalCount ? Math.round((unlockedCount / totalCount) * 100) : 0;
 
-const cards = achievements.map(item => {
-  const safeId = escapeForAttribute(item.id || "");
-  const safeTitle = escapeForAttribute(item.title || "");
-  const safeDescription = escapeForAttribute(item.description || "");
-  const safeIcon = escapeForAttribute(item.icon || "");
-  const safeStatus = escapeForAttribute(item.unlocked ? "Unlocked" : "Locked");
+  const cards = achievements.map(item => {
+    const safeTitle = escapeForAttribute(item.title || "");
+    const safeDescription = escapeForAttribute(item.description || "");
+    const safeIcon = escapeForAttribute(item.icon || "");
+    const safeStatus = escapeForAttribute(item.unlocked ? "Unlocked" : "Locked");
 
-  return `
-    <div class="achievement-card ${item.unlocked ? "unlocked" : "locked"}"
-      onclick="openAchievementModal('${safeIcon}', '${safeTitle}', '${safeDescription}', '${safeStatus}')"
-      role="button"
-      tabindex="0"
-      aria-label="Open achievement ${safeTitle}"
-      onkeydown="if(event.key === 'Enter' || event.key === ' '){ event.preventDefault(); openAchievementModal('${safeIcon}', '${safeTitle}', '${safeDescription}', '${safeStatus}'); }">
+    return `
+      <div class="achievement-card ${item.unlocked ? "unlocked" : "locked"}"
+        onclick="openAchievementModal('${safeIcon}', '${safeTitle}', '${safeDescription}', '${safeStatus}')"
+        role="button"
+        tabindex="0"
+        aria-label="Open achievement ${safeTitle}"
+        onkeydown="if(event.key === 'Enter' || event.key === ' '){ event.preventDefault(); openAchievementModal('${safeIcon}', '${safeTitle}', '${safeDescription}', '${safeStatus}'); }">
 
-      <div class="achievement-icon" aria-hidden="true">
-        ${
-          item.icon
-            ? `<img class="achievement-icon-img" src="${item.icon}" alt="">`
-            : "🏆"
-        }
+        <div class="achievement-icon" aria-hidden="true">
+          ${
+            item.icon
+              ? `<img class="achievement-icon-img" src="${item.icon}" alt="">`
+              : "🏆"
+          }
+        </div>
+
+        <div>
+          <div class="achievement-name">${item.title}</div>
+          <div class="achievement-desc">${item.description}</div>
+          <div class="achievement-status">${item.unlocked ? "Unlocked" : "Locked"}</div>
+        </div>
       </div>
+    `;
+  }).join("");
 
-      <div>
-        <div class="achievement-name">${item.title}</div>
-        <div class="achievement-desc">${item.description}</div>
-        <div class="achievement-status">${item.unlocked ? "Unlocked" : "Locked"}</div>
+  container.innerHTML = `
+    <div class="achievement-summary">
+      <div class="achievement-summary-label">Achievement Progress</div>
+      <div class="achievement-summary-title">${unlockedCount}/${totalCount}</div>
+      <div class="achievement-summary-text">
+        ${stats.standardCompletions}/${stats.totalMissions} standard missions restored ·
+        ${stats.legendaryCompletions}/${stats.totalMissions} legendary missions cleared ·
+        ${stats.artifactsCollected} artifacts secured
+      </div>
+      <div class="achievement-progress-track" aria-hidden="true">
+        <div class="achievement-progress-fill" style="width:${progressPct}%"></div>
       </div>
     </div>
-  `;
-}).join("");
-}
 
+    <div class="achievement-grid">
+      ${cards}
+    </div>
+  `;
+}
 
 /* =========================================================
    UPGRADE: Ordered mission progression.
