@@ -2941,84 +2941,84 @@ const ACHIEVEMENT_DEFINITIONS = [
     id: "firstSteps",
     title: "First Steps",
     description: "Complete one standard mission.",
-    icon: "◇",
+    icon: "first_steps.png",
     unlocked: stats => stats.standardCompletions >= 1
   },
   {
     id: "systemRestorer",
     title: "System Restorer",
     description: "Complete three missions on standard.",
-    icon: "◆",
+    icon: "system_restorer.png",
     unlocked: stats => stats.standardCompletions >= 3
   },
   {
     id: "realmRestorer",
     title: "Realm Restorer",
     description: "Complete all missions on standard.",
-    icon: "⬡",
+    icon: "realm_restorer.png",
     unlocked: stats => stats.standardCompletions >= stats.totalMissions
   },
   {
     id: "unbrokenSignal",
     title: "Unbroken Signal",
     description: "Reach a streak of 20.",
-    icon: "↯",
+    icon: "unbroken_signal.png",
     unlocked: stats => stats.bestStreak >= 20
   },
   {
     id: "trialByClock",
     title: "Trial by Clock",
     description: "Reach Room 30 in Timed Trial with at least 80% accuracy.",
-    icon: "◴",
+    icon: "trial_clock.png",
     unlocked: stats => stats.timedRoom >= 30 && stats.timedAccuracy >= 80
   },
   {
     id: "examSurvivor",
     title: "Exam Survivor",
     description: "Complete an Exam Drill session.",
-    icon: "✎",
+    icon: "exam_survivor.png",
     unlocked: stats => stats.examSessions >= 1
   },
   {
     id: "legendWalker",
     title: "Legend Walker",
     description: "Complete one mission in Legendary Mode.",
-    icon: "△",
+    icon: "legend_walker.png",
     unlocked: stats => stats.legendaryCompletions >= 1
   },
   {
     id: "legendOfTheRealm",
     title: "Legend of the Realm",
     description: "Complete all missions in Legendary Mode.",
-    icon: "▲",
+    icon: "legend_realm.png",
     unlocked: stats => stats.legendaryCompletions >= stats.totalMissions
   },
   {
     id: "perfectCalibration",
     title: "Perfect Calibration",
     description: "Defeat all three bosses in a single mission without a wrong answer.",
-    icon: "◎",
+    icon: "perfect_cal.png",
     unlocked: stats => stats.perfectBossRuns >= 1
   },
   {
     id: "returnAndRebuild",
     title: "Return and Rebuild",
     description: "Resume a saved run and finish it.",
-    icon: "⟲",
+    icon: "return_rebuild.png",
     unlocked: stats => stats.resumeFinishes >= 1
   },
   {
     id: "chancellorWatches",
     title: "The Chancellor Watches",
     description: "Collect six artifacts.",
-    icon: "◈",
+    icon: "chancellor_watches.png",
     unlocked: stats => stats.artifactsCollected >= 6
   },
   {
     id: "custodiansTrial",
     title: "The Custodian’s Trial",
     description: "Answer 400 questions correctly.",
-    icon: "✦",
+    icon: "custodians_trial.png",
     unlocked: stats => stats.totalCorrect >= 400
   }
 ];
