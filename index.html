@@ -1243,6 +1243,18 @@ body{
   line-height:1;
 }
 
+.achievement-icon img{
+  width:34px;
+  height:34px;
+  object-fit:contain;
+  display:block;
+  filter:drop-shadow(0 0 10px rgba(255,255,255,.10));
+}
+
+.achievement-card.unlocked .achievement-icon img{
+  filter:drop-shadow(0 0 12px rgba(251,191,36,.22));
+}
+
 .achievement-card.unlocked .achievement-icon{
   border-color:rgba(251,191,36,.42);
   box-shadow:0 0 16px rgba(251,191,36,.16);
@@ -1800,6 +1812,18 @@ body{
     rgba(0,0,0,.28);
   font-size:24px;
   line-height:1;
+}
+
+.achievement-icon img{
+  width:34px;
+  height:34px;
+  object-fit:contain;
+  display:block;
+  filter:drop-shadow(0 0 10px rgba(255,255,255,.10));
+}
+
+.achievement-card.unlocked .achievement-icon img{
+  filter:drop-shadow(0 0 12px rgba(251,191,36,.22));
 }
 
 .achievement-card.unlocked .achievement-icon{
@@ -3225,6 +3249,16 @@ function getUnlockedAchievements(){
   });
 }
 
+function renderAchievementIcon(item){
+  const title = String(item.title || "Achievement").replace(/"/g, "&quot;");
+
+  if(item.icon && /\.(png|jpg|jpeg|gif|webp|svg)$/i.test(item.icon)){
+    return `<img src="${item.icon}" alt="" aria-hidden="true" onerror="this.style.display='none'; this.parentElement.classList.add('missing-icon');">`;
+  }
+
+  return item.icon || "★";
+}
+
 function renderAchievements(){
   const container = document.getElementById("achievementsContent");
   if(!container) return;
@@ -3237,7 +3271,7 @@ function renderAchievements(){
 
   const cards = achievements.map(item => `
     <div class="achievement-card ${item.unlocked ? "unlocked" : "locked"}">
-      <div class="achievement-icon" aria-hidden="true">${item.icon}</div>
+      <div class="achievement-icon" aria-hidden="true">${renderAchievementIcon(item)}</div>
       <div>
         <div class="achievement-name">${item.title}</div>
         <div class="achievement-desc">${item.description}</div>
@@ -3553,6 +3587,7 @@ function selectGame(gameKey){
 </script>
 </body>
 </html>
+
 
 
 
