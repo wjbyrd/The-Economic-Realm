@@ -1700,6 +1700,155 @@ body{
     min-height:auto;
   }
 }
+
+.achievement-summary{
+  margin:0 0 16px;
+  padding:14px;
+  border-radius:14px;
+  border:1px solid rgba(255,255,255,.13);
+  background:
+    radial-gradient(circle at top left, rgba(251,191,36,.10), transparent 56%),
+    rgba(255,255,255,.045);
+}
+
+.achievement-summary-label{
+  font-size:10px;
+  letter-spacing:.22em;
+  text-transform:uppercase;
+  color:rgba(255,255,255,.46);
+  margin-bottom:5px;
+}
+
+.achievement-summary-title{
+  font-size:24px;
+  letter-spacing:.12em;
+  text-transform:uppercase;
+  color:#fbbf24;
+  font-weight:700;
+  text-shadow:0 0 14px rgba(251,191,36,.22);
+}
+
+.achievement-summary-text{
+  margin-top:6px;
+  font-size:13px;
+  line-height:1.4;
+  color:rgba(255,255,255,.62);
+  letter-spacing:.04em;
+}
+
+.achievement-progress-track{
+  margin-top:12px;
+  height:10px;
+  border-radius:999px;
+  overflow:hidden;
+  border:1px solid rgba(255,255,255,.13);
+  background:rgba(255,255,255,.055);
+  box-shadow:inset 0 0 10px rgba(0,0,0,.55);
+}
+
+.achievement-progress-fill{
+  height:100%;
+  width:0%;
+  border-radius:999px;
+  background:linear-gradient(90deg, rgba(56,189,248,.85), rgba(251,191,36,.95));
+  box-shadow:0 0 14px rgba(251,191,36,.28);
+  transition:width .25s ease;
+}
+
+.achievement-grid{
+  display:grid;
+  grid-template-columns:repeat(2, minmax(0, 1fr));
+  gap:12px;
+}
+
+.achievement-card{
+  display:grid;
+  grid-template-columns:48px 1fr;
+  gap:12px;
+  align-items:center;
+  padding:13px;
+  border-radius:14px;
+  border:1px solid rgba(255,255,255,.12);
+  background:
+    radial-gradient(circle at top left, rgba(255,255,255,.08), transparent 54%),
+    rgba(255,255,255,.04);
+}
+
+.achievement-card.unlocked{
+  border-color:rgba(251,191,36,.38);
+  background:
+    radial-gradient(circle at top left, rgba(251,191,36,.15), transparent 56%),
+    rgba(255,255,255,.055);
+  box-shadow:0 0 20px rgba(251,191,36,.08), inset 0 0 18px rgba(255,255,255,.025);
+}
+
+.achievement-card.locked{
+  opacity:.54;
+  filter:grayscale(.55);
+}
+
+.achievement-icon{
+  width:48px;
+  height:48px;
+  border-radius:14px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  border:1px solid rgba(255,255,255,.14);
+  background:
+    radial-gradient(circle at center, rgba(255,255,255,.12), transparent 66%),
+    rgba(0,0,0,.28);
+  font-size:24px;
+  line-height:1;
+}
+
+.achievement-card.unlocked .achievement-icon{
+  border-color:rgba(251,191,36,.42);
+  box-shadow:0 0 16px rgba(251,191,36,.16);
+}
+
+.achievement-name{
+  font-size:14px;
+  font-weight:700;
+  letter-spacing:.10em;
+  text-transform:uppercase;
+  color:rgba(255,255,255,.92);
+}
+
+.achievement-desc{
+  margin-top:4px;
+  font-size:12.5px;
+  line-height:1.32;
+  color:rgba(255,255,255,.62);
+}
+
+.achievement-status{
+  margin-top:7px;
+  font-size:10px;
+  letter-spacing:.14em;
+  text-transform:uppercase;
+  color:rgba(255,255,255,.42);
+}
+
+.achievement-card.unlocked .achievement-status{
+  color:#fbbf24;
+}
+
+@media(max-width:680px){
+  .achievement-grid{
+    grid-template-columns:1fr;
+  }
+
+  .achievement-card{
+    grid-template-columns:42px 1fr;
+  }
+
+  .achievement-icon{
+    width:42px;
+    height:42px;
+    font-size:21px;
+  }
+}
   
 </style>
 </head>
@@ -2577,154 +2726,7 @@ function showRealmPanel(panelId){
    - Progress is read from mission completion keys and mode/stat keys.
    ========================================================= */
 
-.achievement-summary{
-  margin:0 0 16px;
-  padding:14px;
-  border-radius:14px;
-  border:1px solid rgba(255,255,255,.13);
-  background:
-    radial-gradient(circle at top left, rgba(251,191,36,.10), transparent 56%),
-    rgba(255,255,255,.045);
-}
 
-.achievement-summary-label{
-  font-size:10px;
-  letter-spacing:.22em;
-  text-transform:uppercase;
-  color:rgba(255,255,255,.46);
-  margin-bottom:5px;
-}
-
-.achievement-summary-title{
-  font-size:24px;
-  letter-spacing:.12em;
-  text-transform:uppercase;
-  color:#fbbf24;
-  font-weight:700;
-  text-shadow:0 0 14px rgba(251,191,36,.22);
-}
-
-.achievement-summary-text{
-  margin-top:6px;
-  font-size:13px;
-  line-height:1.4;
-  color:rgba(255,255,255,.62);
-  letter-spacing:.04em;
-}
-
-.achievement-progress-track{
-  margin-top:12px;
-  height:10px;
-  border-radius:999px;
-  overflow:hidden;
-  border:1px solid rgba(255,255,255,.13);
-  background:rgba(255,255,255,.055);
-  box-shadow:inset 0 0 10px rgba(0,0,0,.55);
-}
-
-.achievement-progress-fill{
-  height:100%;
-  width:0%;
-  border-radius:999px;
-  background:linear-gradient(90deg, rgba(56,189,248,.85), rgba(251,191,36,.95));
-  box-shadow:0 0 14px rgba(251,191,36,.28);
-  transition:width .25s ease;
-}
-
-.achievement-grid{
-  display:grid;
-  grid-template-columns:repeat(2, minmax(0, 1fr));
-  gap:12px;
-}
-
-.achievement-card{
-  display:grid;
-  grid-template-columns:48px 1fr;
-  gap:12px;
-  align-items:center;
-  padding:13px;
-  border-radius:14px;
-  border:1px solid rgba(255,255,255,.12);
-  background:
-    radial-gradient(circle at top left, rgba(255,255,255,.08), transparent 54%),
-    rgba(255,255,255,.04);
-}
-
-.achievement-card.unlocked{
-  border-color:rgba(251,191,36,.38);
-  background:
-    radial-gradient(circle at top left, rgba(251,191,36,.15), transparent 56%),
-    rgba(255,255,255,.055);
-  box-shadow:0 0 20px rgba(251,191,36,.08), inset 0 0 18px rgba(255,255,255,.025);
-}
-
-.achievement-card.locked{
-  opacity:.54;
-  filter:grayscale(.55);
-}
-
-.achievement-icon{
-  width:48px;
-  height:48px;
-  border-radius:14px;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  border:1px solid rgba(255,255,255,.14);
-  background:
-    radial-gradient(circle at center, rgba(255,255,255,.12), transparent 66%),
-    rgba(0,0,0,.28);
-  font-size:24px;
-  line-height:1;
-}
-
-.achievement-card.unlocked .achievement-icon{
-  border-color:rgba(251,191,36,.42);
-  box-shadow:0 0 16px rgba(251,191,36,.16);
-}
-
-.achievement-name{
-  font-size:14px;
-  font-weight:700;
-  letter-spacing:.10em;
-  text-transform:uppercase;
-  color:rgba(255,255,255,.92);
-}
-
-.achievement-desc{
-  margin-top:4px;
-  font-size:12.5px;
-  line-height:1.32;
-  color:rgba(255,255,255,.62);
-}
-
-.achievement-status{
-  margin-top:7px;
-  font-size:10px;
-  letter-spacing:.14em;
-  text-transform:uppercase;
-  color:rgba(255,255,255,.42);
-}
-
-.achievement-card.unlocked .achievement-status{
-  color:#fbbf24;
-}
-
-@media(max-width:680px){
-  .achievement-grid{
-    grid-template-columns:1fr;
-  }
-
-  .achievement-card{
-    grid-template-columns:42px 1fr;
-  }
-
-  .achievement-icon{
-    width:42px;
-    height:42px;
-    font-size:21px;
-  }
-}
 
 /* =========================================================
    UPGRADE: Student Progress Recovery
