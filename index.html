@@ -1873,6 +1873,34 @@ body{
     font-size:21px;
   }
 }
+
+.achievement-card{
+  cursor:pointer;
+}
+
+.achievement-card:hover{
+  border-color:rgba(56,189,248,.42);
+  background:
+    radial-gradient(circle at top left, rgba(56,189,248,.14), transparent 56%),
+    rgba(255,255,255,.055);
+  box-shadow:0 0 18px rgba(56,189,248,.10);
+}
+
+.achievement-icon{
+  overflow:hidden;
+}
+
+.achievement-icon-img{
+  width:100%;
+  height:100%;
+  object-fit:contain;
+  display:block;
+  filter:drop-shadow(0 0 10px rgba(56,189,248,.28));
+}
+
+.achievement-card.locked .achievement-icon-img{
+  opacity:.62;
+}
   
 </style>
 </head>
@@ -2199,6 +2227,23 @@ body{
       <div id="artifactModalMeaning" class="artifact-modal-meaning"></div>
       <div id="artifactModalConceptPower" class="artifact-modal-field"></div>
       <div id="artifactModalWhyItMatters" class="artifact-modal-field"></div>
+    </div>
+  </div>
+</section>
+
+<!-- UPGRADE: Achievement detail modal.
+     Clicking an achievement card opens a larger badge view. -->
+<section id="achievementModal" class="artifact-modal" aria-label="Achievement detail dialog">
+  <div class="artifact-modal-card">
+    <div class="artifact-modal-header">
+      <h2 id="achievementModalTitle" class="artifact-modal-title">Achievement</h2>
+      <button class="help-close-btn" onclick="closeAchievementModal()" aria-label="Close achievement view">Close ×</button>
+    </div>
+
+    <div class="artifact-modal-body">
+      <img id="achievementModalImage" class="artifact-modal-image" src="" alt="">
+      <div id="achievementModalStatus" class="artifact-modal-source"></div>
+      <div id="achievementModalDescription" class="artifact-modal-meaning"></div>
     </div>
   </div>
 </section>
@@ -2955,6 +3000,30 @@ function closeArtifactModal(){
   }
 }
 
+function openAchievementModal(image, title, description, status){
+  const modal = document.getElementById("achievementModal");
+  const modalImage = document.getElementById("achievementModalImage");
+  const modalTitle = document.getElementById("achievementModalTitle");
+  const modalStatus = document.getElementById("achievementModalStatus");
+  const modalDescription = document.getElementById("achievementModalDescription");
+
+  if(!modal || !modalImage || !modalTitle || !modalStatus || !modalDescription) return;
+
+  modalImage.src = image;
+  modalImage.alt = title;
+  modalTitle.innerText = title;
+  modalStatus.innerText = status;
+  modalDescription.innerText = description;
+
+  modal.classList.add("active");
+}
+
+function closeAchievementModal(){
+  const modal = document.getElementById("achievementModal");
+  if(modal){
+    modal.classList.remove("active");
+  }
+}
 
 /* =========================================================
    UPGRADE: Achievement System
@@ -3269,35 +3338,37 @@ function renderAchievements(){
   const totalCount = achievements.length;
   const progressPct = totalCount ? Math.round((unlockedCount / totalCount) * 100) : 0;
 
-  const cards = achievements.map(item => `
-    <div class="achievement-card ${item.unlocked ? "unlocked" : "locked"}">
-      <div class="achievement-icon" aria-hidden="true">${renderAchievementIcon(item)}</div>
+const cards = achievements.map(item => {
+  const safeId = escapeForAttribute(item.id || "");
+  const safeTitle = escapeForAttribute(item.title || "");
+  const safeDescription = escapeForAttribute(item.description || "");
+  const safeIcon = escapeForAttribute(item.icon || "");
+  const safeStatus = escapeForAttribute(item.unlocked ? "Unlocked" : "Locked");
+
+  return `
+    <div class="achievement-card ${item.unlocked ? "unlocked" : "locked"}"
+      onclick="openAchievementModal('${safeIcon}', '${safeTitle}', '${safeDescription}', '${safeStatus}')"
+      role="button"
+      tabindex="0"
+      aria-label="Open achievement ${safeTitle}"
+      onkeydown="if(event.key === 'Enter' || event.key === ' '){ event.preventDefault(); openAchievementModal('${safeIcon}', '${safeTitle}', '${safeDescription}', '${safeStatus}'); }">
+
+      <div class="achievement-icon" aria-hidden="true">
+        ${
+          item.icon
+            ? `<img class="achievement-icon-img" src="${item.icon}" alt="">`
+            : "🏆"
+        }
+      </div>
+
       <div>
         <div class="achievement-name">${item.title}</div>
         <div class="achievement-desc">${item.description}</div>
         <div class="achievement-status">${item.unlocked ? "Unlocked" : "Locked"}</div>
       </div>
     </div>
-  `).join("");
-
-  container.innerHTML = `
-    <div class="achievement-summary">
-      <div class="achievement-summary-label">Achievement Progress</div>
-      <div class="achievement-summary-title">${unlockedCount}/${totalCount}</div>
-      <div class="achievement-summary-text">
-        ${stats.standardCompletions}/${stats.totalMissions} standard missions restored ·
-        ${stats.legendaryCompletions}/${stats.totalMissions} legendary missions cleared ·
-        ${stats.artifactsCollected} artifacts secured
-      </div>
-      <div class="achievement-progress-track" aria-hidden="true">
-        <div class="achievement-progress-fill" style="width:${progressPct}%"></div>
-      </div>
-    </div>
-
-    <div class="achievement-grid">
-      ${cards}
-    </div>
   `;
+}).join("");
 }
 
 
