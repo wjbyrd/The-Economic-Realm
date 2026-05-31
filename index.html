@@ -5426,51 +5426,7 @@ body{
 </section>
 
 <script>
-  const menuMusic = new Audio("menu_music.mp3");
-  menuMusic.loop = true;
-  menuMusic.volume = 0.12;
-  let menuMusicStarted = false;
-
-  function showSoundToggle(){
-    const button = document.getElementById("soundToggle");
-    if(button){
-      button.classList.add("visible");
-    }
-  }
-
-  function updateSoundToggle(){
-    const button = document.getElementById("soundToggle");
-    if(!button) return;
-    button.innerText = menuMusicStarted ? "Sound On" : "Sound Off";
-  }
-
-  function startMenuMusic(){
-    menuMusic.play()
-      .then(() => {
-        menuMusicStarted = true;
-        updateSoundToggle();
-      })
-      .catch(error => {
-        menuMusicStarted = false;
-        updateSoundToggle();
-        console.log("Menu music could not start yet:", error.message);
-      });
-  }
-
-  function stopMenuMusic(){
-    menuMusic.pause();
-    menuMusic.currentTime = 0;
-    menuMusicStarted = false;
-    updateSoundToggle();
-  }
-
-  function toggleMenuMusic(){
-    if(menuMusicStarted){
-      stopMenuMusic();
-    } else {
-      startMenuMusic();
-    }
-  }
+ 
 
 const games = {
   /* =========================================================
