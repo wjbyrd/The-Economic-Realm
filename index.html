@@ -1567,96 +1567,98 @@ body{
   }
 }
 
-  @media(max-width:680px){
-    body{
-      overflow:auto;
-    }
-
-    #mainMenu{
-      padding:32px 18px;
-    }
-
-    .game-grid{
-      grid-template-columns:1fr;
-    }
-
-    .game-card{
-      min-height:auto;
-    }
-
-    .game-content{
-      min-height:auto;
-    }
-
-    .splash-status{
-      right:20px;
-      bottom:18px;
-      font-size:10px;
-    }
-
-    .modal-actions{
-      flex-direction:column;
-    }
-
-    .realm-menu-button{
-      right:18px;
-      bottom:18px;
-    }
-
-    .realm-menu-actions{
-      flex-direction:column;
-    }
-
-    .realm-menu-action,
-    .next-mission-button{
-      width:100%;
-    }
-
-    .artifact-vault-grid{
-      grid-template-columns:1fr;
-    }
-
-    .artifact-modal-card{
-      padding:20px;
-    }
-
-    .artifact-modal-title{
-      font-size:22px;
-    }
-
-    .artifact-modal-image{
-      max-height:360px;
-    }
-
-    .briefing-folder{
-      margin-top:18px;
-    }
-
-    .briefing-folder-header{
-      padding:14px 15px;
-    }
-
-    .briefing-folder-title{
-      font-size:17px;
-    }
-
-    .briefing-folder-subtext{
-      font-size:12px;
-    }
-
-    .briefing-folder-toggle{
-      padding:7px 10px;
-    }
-
-    .game-card.restored .game-thumb::before,
-    .game-card.contested .game-thumb::before,
-    .game-card.locked .game-thumb::before{
-      top:10px;
-      right:10px;
-      font-size:9px;
-      padding:6px 8px;
-    }
+ @media(max-width:680px){
+  body{
+    overflow:auto;
   }
+
+  #mainMenu{
+    padding:32px 18px 130px;
+  }
+
+  .game-grid{
+    grid-template-columns:1fr;
+    gap:34px;
+  }
+
+  .game-card{
+    height:auto !important;
+    min-height:auto !important;
+    overflow:visible;
+  }
+
+  .game-content{
+    min-height:auto !important;
+  }
+
+  .splash-status{
+    right:20px;
+    bottom:18px;
+    font-size:10px;
+  }
+
+  .modal-actions{
+    flex-direction:column;
+  }
+
+  .realm-menu-button{
+    display:none !important;
+  }
+
+  .realm-menu-actions{
+    flex-direction:column;
+  }
+
+  .realm-menu-action,
+  .next-mission-button{
+    width:100%;
+  }
+
+  .artifact-vault-grid{
+    grid-template-columns:1fr;
+  }
+
+  .artifact-modal-card{
+    padding:20px;
+  }
+
+  .artifact-modal-title{
+    font-size:22px;
+  }
+
+  .artifact-modal-image{
+    max-height:360px;
+  }
+
+  .briefing-folder{
+    margin-top:18px;
+  }
+
+  .briefing-folder-header{
+    padding:14px 15px;
+  }
+
+  .briefing-folder-title{
+    font-size:17px;
+  }
+
+  .briefing-folder-subtext{
+    font-size:12px;
+  }
+
+  .briefing-folder-toggle{
+    padding:7px 10px;
+  }
+
+  .game-card.restored .game-thumb::before,
+  .game-card.contested .game-thumb::before,
+  .game-card.locked .game-thumb::before{
+    top:10px;
+    right:10px;
+    font-size:9px;
+    padding:6px 8px;
+  }
+}
 
 /* =========================================================
    MOBILE SCROLL FIX — ECONOMIC REALM
@@ -1695,21 +1697,32 @@ body{
   #mainMenu{
     height:100dvh;
     min-height:100dvh;
-    padding:22px 14px 120px;
+    padding:22px 14px 140px;
     overflow-y:auto !important;
     -webkit-overflow-scrolling:touch;
   }
 
   .menu-shell{
-    padding-bottom:120px;
+    padding-bottom:140px;
   }
 
   .game-grid{
     grid-template-columns:1fr;
+    gap:34px;
   }
 
   .game-card{
-    min-height:auto;
+    height:auto !important;
+    min-height:auto !important;
+    overflow:visible;
+  }
+
+  .game-content{
+    min-height:auto !important;
+  }
+
+  .realm-menu-button{
+    display:none !important;
   }
 }
 
