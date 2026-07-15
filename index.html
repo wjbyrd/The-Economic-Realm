@@ -2801,6 +2801,11 @@ function closeRealmMenu(){
   document.getElementById("realmMenuModal").classList.remove("active");
 }
 
+function closeHelpModal(){
+  const modal = document.getElementById("helpModal");
+  if(modal){ modal.classList.remove("active"); }
+}
+
 function showRealmPanel(panelId){
   document.querySelectorAll(".realm-panel").forEach(panel => {
     panel.classList.remove("active");
