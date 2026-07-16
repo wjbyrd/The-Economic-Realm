@@ -2097,7 +2097,7 @@ body{
       </div>
       <div class="game-meta">
         <div class="status-line"><span>Status</span><span class="status-value" id="status-equilibriumCrisis">Ready</span></div>
-        <button class="enter-btn" onclick="selectGame('equilibriumCrisis')">Coming soon</button>
+      <button class="enter-btn" onclick="selectGame('equilibriumCrisis')">Enter the Crisis</button>
       </div>
     </div>
   </article>
@@ -2122,7 +2122,7 @@ body{
       
       <div class="game-meta">
         <div class="status-line"><span>Status</span><span class="status-value" id="status-liquidityGrid">Ready</span></div>
-        <button class="enter-btn" onclick="selectGame('liquidityGrid')">Coming soon</button>
+        <button class="enter-btn" onclick="selectGame('liquidityGrid')">Enter the Grid</button>
       </div>
     </div>
   </article>
@@ -2151,7 +2151,7 @@ body{
       
       <div class="game-meta">
         <div class="status-line"><span>Status</span><span class="status-value" id="status-stabilizationProtocol">Ready</span></div>
-        <button class="enter-btn" onclick="selectGame('stabilizationProtocol')">Coming soon</button>
+        <button class="enter-btn" onclick="selectGame('stabilizationProtocol')">Enter the Protocol</button>
       </div>
     </div>
   </article>
@@ -2371,7 +2371,7 @@ const games = {
   {
     name: "Frontier Compass",
     source: "Frontier Keeper",
-    image: "compass.webp",
+    image: "The Market Gate/compass.webp",
     meaning: "The Frontier Compass represents opportunity cost and the discipline of choosing one path when every choice closes another.",
     conceptPower: "Opportunity cost is the value of the next-best alternative given up, not just the money spent.",
     whyItMatters: "Students often count visible costs and ignore what was sacrificed. The compass reminds them to look at the path not taken."
@@ -2379,7 +2379,7 @@ const games = {
   {
     name: "Signal Lens",
     source: "Signal Broker",
-    image: "lens.webp",
+    image: "The Market Gate/lens.webp",
     meaning: "The Signal Lens represents supply, demand, and the ability to read market signals instead of guessing from surface-level changes.",
     conceptPower: "Markets move through shifts, movements, shortages, surpluses, and equilibrium pressure.",
     whyItMatters: "When students confuse a change in demand with a change in quantity demanded, the whole analysis falls apart. The lens is about seeing which curve moved and why."
@@ -2387,7 +2387,7 @@ const games = {
   {
     name: "Magistrate’s Scales",
     source: "Price Magistrate",
-    image: "scales.webp",
+    image: "The Market Gate/scales.webp",
     meaning: "The Magistrate’s Scales represent price controls, taxes, and the hidden tradeoffs created when policy changes market outcomes.",
     conceptPower: "Ceilings, floors, and taxes create shortages, surpluses, wedges, burden sharing, and deadweight loss.",
     whyItMatters: "Policy does not stop incentives. It redirects them. The scales remind students to ask who gains, who loses, and what unintended consequences show up."
@@ -2416,7 +2416,7 @@ const games = {
   {
     name: "Registrar’s Seal",
     source: "The Registrar",
-    image: "seal.webp",
+    image: "The National Ledger/seal.webp",
     meaning: "The Registrar’s Seal represents GDP measurement and the discipline of counting only what belongs in national output.",
     conceptPower: "GDP measures the market value of all final goods and services produced within a country during a specific period.",
     whyItMatters: "Students often mix up final goods, intermediate goods, used goods, imports, and non-market activity. The seal reminds them that national income measurement has rules. Count the wrong thing and the whole record is corrupted."
@@ -2424,7 +2424,7 @@ const games = {
   {
     name: "Warden’s Prism",
     source: "The Warden",
-    image: "prism.webp",
+    image: "The National Ledger/prism.webp",
     meaning: "The Warden’s Prism represents inflation, CPI, real values, and the need to separate price changes from real changes.",
     conceptPower: "Price indexes help compare dollar values across time and distinguish nominal values from real purchasing power.",
     whyItMatters: "Students often see a larger dollar amount and assume people are better off. The prism reminds them to adjust for inflation before making that call."
@@ -2432,7 +2432,7 @@ const games = {
   {
     name: "Comptroller’s Crown",
     source: "The Comptroller",
-    image: "crown.webp",
+    image: "The National Ledger/crown.webp",
     meaning: "The Comptroller’s Crown represents productivity, growth, unemployment, and the broader health of the economy.",
     conceptPower: "Long-run living standards depend heavily on productivity, while labor statistics reveal whether growth is reaching workers.",
     whyItMatters: "Students often treat GDP growth, productivity, and unemployment as separate facts. The crown reminds them that national performance has to be judged across output, prices, growth, and labor conditions together."
@@ -2462,7 +2462,7 @@ const games = {
     {
       name: "Signal Shard",
       source: "The Signal Breaker",
-      image: "shard.webp",
+      image: "The Equilibrium Crisis/shard.webp",
       meaning: "The Signal Shard represents fractured market signals and the need to interpret tradeoffs, incentives, supply, demand, and equilibrium before the system breaks apart.",
       conceptPower: "Markets coordinate choices through prices, incentives, and voluntary exchange, but those signals can fracture when scarcity, shocks, or policy distortions change behavior.",
       whyItMatters: "Students often memorize supply and demand as separate curves instead of reading them as signals. The shard reminds them that prices carry information. When demand shifts, supply shifts, or incentives change, the signal changes too. Miss the signal and the market story falls apart."
@@ -2470,7 +2470,7 @@ const games = {
     {
       name: "Warden’s Gauge",
       source: "The Measure Warden",
-      image: "gauge.webp",
+      image: "The Equilibrium Crisis/gauge.webp",
       meaning: "The Warden’s Gauge represents measurement under pressure when inflation, real values, productivity, unemployment, and market outcomes collide.",
       conceptPower: "Economic measurement requires separating nominal changes from real changes, identifying labor-market status correctly, and recognizing when headline indicators hide deeper problems.",
       whyItMatters: "Students often see higher wages, lower unemployment, or slower inflation and assume the economy is automatically better. The gauge reminds them to check what is actually being measured. A nominal wage can rise while real wages fall. Unemployment can fall because workers leave the labor force. A capped price can hide shortages instead of solving them."
@@ -2478,7 +2478,7 @@ const games = {
   {
     name: "Marshal's Decree",
     source: "The Marshal of Equilibrium",
-    image: "decree.webp",
+    image: "The Equilibrium Crisis/decree.webp",
     meaning: "The Marshal's Decree represents the authority to restore order when shortages, surpluses, taxes, price controls, inflation pressure, and labor-market disruption pull the realm out of balance.",
     conceptPower: "The decree gives students a way to connect market forces, policy interventions, and macroeconomic measurement into one judgment. It is not just about finding equilibrium. It is about tracing how shocks move through prices, quantities, incentives, real values, employment, and welfare.",
     whyItMatters: "Students often treat chapters as separate rooms: supply and demand over here, GDP over there, inflation somewhere else, unemployment after that. The Marshal's Decree tells them to stop doing that. Real analysis requires a ruling across the whole system. A policy can change prices, quantities, incentives, measured inflation, real wages, employment, and welfare at the same time. The decree is the order that forces those pieces back into one coherent judgment."
@@ -2507,7 +2507,7 @@ const games = {
       {
         name: "Reserve Key",
         source: "The Reserve Custodian",
-        image: "reserve_key.webp",
+        image: "The Liquidity Grid/reserve_key.webp",
         meaning: "The Reserve Key represents the foundation of the banking system: reserves, deposits, lending capacity, and the ability of banks to create money through fractional reserves.",
         conceptPower: "Money creation depends on how banks manage deposits, reserves, excess reserves, loans, reserve requirements, and the money multiplier. The key unlocks the link between individual bank balance sheets and the broader money supply.",
         whyItMatters: "Students often think banks simply hold deposits in a vault. That misses the whole engine. Banks keep reserves, lend the rest, and those loans become new deposits elsewhere in the system. The Reserve Key reminds them that money creation is not magic. It is balance sheets, reserve rules, lending behavior, and confidence working together."
@@ -2515,7 +2515,7 @@ const games = {
       {
         name: "Value Prism",
         source: "The Value Wraith",
-        image: "value_prism.webp",
+        image: "The Liquidity Grid/value_prism.webp",
         meaning: "The Value Prism represents the split between nominal money and real purchasing power when inflation changes the value of money.",
         conceptPower: "Inflation, the price level, nominal variables, real variables, the value of money, and the quantity theory all connect through the idea that money’s purchasing power changes when prices change.",
         whyItMatters: "Students often see more dollars and assume people are richer. The prism tells them to stop falling for that trap. If prices rise faster than income, the same dollars buy less. Nominal GDP, nominal wages, and nominal interest rates can all rise while real value tells a different story. The Value Prism forces students to bend the signal and ask what actually changed."
@@ -2523,7 +2523,7 @@ const games = {
       {
         name: "Policy Scepter",
         source: "The Policy Banker",
-        image: "policy_scepter.webp",
+        image: "The Liquidity Grid/policy_scepter.webp",
         meaning: "The Policy Scepter represents monetary policy authority: the power to influence money supply, interest rates, liquidity, aggregate demand, inflation pressure, and short-run output.",
         conceptPower: "Monetary policy works through liquidity channels. Open-market operations, interest rates, money demand, money supply, and aggregate demand are connected through the policy transmission process.",
         whyItMatters: "Students often memorize that the Fed buys bonds or changes interest rates without tracing the chain. The scepter reminds them that policy moves through markets. A bond purchase can increase reserves, expand the money supply, lower interest rates, increase investment, and shift aggregate demand. But the chain can weaken if banks, borrowers, or households do not respond. That is where the real analysis starts."
@@ -2551,7 +2551,7 @@ stabilizationProtocol: {
     {
       name: "Policy Key",
       source: "The Policy Sentinel",
-      image: "policy_key.webp",
+      image: "The Stabilization Protocol/key.webp",
       meaning: "The Policy Key represents control over the first layer of the Protocol: reading economic conditions, identifying the active policy channel, and knowing which tool can move the system.",
       conceptPower: "Stabilization policy starts with diagnosis. Students must determine whether the economy is facing an aggregate demand shock, aggregate supply shock, recessionary gap, inflationary pressure, money-market disruption, or policy transmission problem.",
       whyItMatters: "Students often jump straight to 'increase spending' or 'cut interest rates' without diagnosing the shock first. That is how bad policy advice gets dressed up as confidence. The Policy Key reminds them that the right response depends on what moved, why it moved, and which channel carries the effect."
@@ -2559,7 +2559,7 @@ stabilizationProtocol: {
     {
       name: "Regent’s Seal",
       source: "The Stabilization Regent",
-      image: "regents_seal.webp",
+      image: "The Stabilization Protocol/seal.webp",
       meaning: "The Regent’s Seal represents command over the messy middle of stabilization: output gaps, inflation pressure, crowding out, policy lags, expectations, and the tradeoffs created when policymakers try to force balance.",
       conceptPower: "Fiscal and monetary policy can shift aggregate demand, but the multiplier effect, crowding out, inflation expectations, sticky prices, supply-side limits, and timing problems shape the final outcome.",
       whyItMatters: "Students often treat stabilization as if policymakers pull one lever and the economy obeys. That is fantasy land. The Regent’s Seal reminds them that policy can help output while raising inflation pressure, or fight inflation while increasing unemployment. There is no free lunch hiding in the marble hallway."
@@ -2567,7 +2567,7 @@ stabilizationProtocol: {
     {
       name: "Chancellor’s Mandate",
       source: "The Chancellor",
-      image: "chancellors_mandate.webp",
+      image: "The Stabilization Protocol/mandate.webp",
       meaning: "The Chancellor’s Mandate represents final authority over the Protocol: money, inflation, aggregate demand, aggregate supply, fiscal policy, monetary policy, expectations, Phillips-curve tradeoffs, and policy judgment brought into one system.",
       conceptPower: "The final system requires students to connect monetary foundations, inflation, AD-AS analysis, fiscal policy, monetary policy, the short-run Phillips curve, expectations, disinflation, sacrifice ratios, and long-run adjustment.",
       whyItMatters: "Students often leave macro with disconnected pieces: money over here, inflation over there, AD-AS somewhere else, policy at the end. The Mandate tells them to stop doing that. Real macro analysis means tracing how one shock or policy moves through output, prices, employment, interest rates, expectations, and tradeoffs."
@@ -3726,7 +3726,6 @@ function selectGame(gameKey){
 </script>
 </body>
 </html>
-
 
 
 
