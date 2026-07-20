@@ -401,13 +401,6 @@ body{
   font-weight:700;
 }
 
-.briefing-folder-subtext{
-  margin-top:5px;
-  font-size:13px;
-  letter-spacing:.06em;
-  color:rgba(255,255,255,.56);
-}
-
 .briefing-folder-toggle{
   flex:0 0 auto;
   padding:8px 12px;
@@ -955,11 +948,17 @@ body{
 }
 
 .mission-briefing{
+  display:none;
   margin:-6px 0 14px;
   font-size:13px;
   line-height:1.35;
   color:rgba(255,255,255,.50);
   letter-spacing:.045em;
+}
+
+/* Completion narrative stays off the card until the mission is actually restored. */
+.game-card.restored .mission-briefing{
+  display:block;
 }
 
 .restored-badge{
@@ -1648,10 +1647,6 @@ body{
     font-size:17px;
   }
 
-  .briefing-folder-subtext{
-    font-size:12px;
-  }
-
   .briefing-folder-toggle{
     padding:7px 10px;
   }
@@ -1995,7 +1990,6 @@ body{
           <div>
             <div class="briefing-folder-label">CHANCELLOR'S BRIEFING</div>
             <div id="briefingFolderTitle" class="briefing-folder-title">0 of 5 systems restored</div>
-            <div id="briefingFolderSubtext" class="briefing-folder-subtext">Next Mission: The Market Gate</div>
           </div>
           <span id="briefingFolderToggle" class="briefing-folder-toggle">Open</span>
         </button>
@@ -2697,24 +2691,9 @@ function restoreBriefingFolderState(){
 
 function updateBriefingFolderSummary(restoredCount, totalMissions){
   const title = document.getElementById("briefingFolderTitle");
-  const subtext = document.getElementById("briefingFolderSubtext");
 
   if(title){
     title.innerText = `${restoredCount} of ${totalMissions} systems restored`;
-  }
-
-  if(subtext){
-    if(nextMissionKey && games[nextMissionKey]){
-      const game = games[nextMissionKey];
-      const started = localStorage.getItem(game.startedKey) === "true";
-      const room = localStorage.getItem(game.roomKey);
-
-      subtext.innerText = started && room
-        ? `Continue: ${game.title} · Room ${room}`
-        : `Next Mission: ${game.title}`;
-    } else {
-      subtext.innerText = "All systems restored";
-    }
   }
 }
 
@@ -3803,5 +3782,6 @@ function selectGame(gameKey){
 </script>
 </body>
 </html>
+
 
 
